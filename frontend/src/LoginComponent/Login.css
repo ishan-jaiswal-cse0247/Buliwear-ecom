@@ -1,0 +1,10 @@
+#main1 {
+  width: 100%;
+  background-color: white;
+  float: none;
+}
+#main1 p {
+  margin-left: 10px;
+  margin-right: 10px;
+  text-align: justify;
+}
