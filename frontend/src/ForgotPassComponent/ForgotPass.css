@@ -1,0 +1,13 @@
+#main1 {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+#main1 p {
+  margin-left: 10px;
+  margin-right: 10px;
+  text-align: justify;
+}
+.small-container {
+  width: 30%;
+}
