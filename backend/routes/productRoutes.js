@@ -2,7 +2,7 @@ import express from 'express';
 import Product from '../models/productModel.js';
 import multer from 'multer';
 const productRouter = express.Router();
-const DIR = '../frontend/public/assets/media/Product/';
+const DIR = '../frontend/build/assets/media/Product/';
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, DIR);
