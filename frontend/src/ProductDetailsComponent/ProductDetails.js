@@ -232,7 +232,7 @@ function ProductDetails() {
                           className="d-block "
                           id="slide-img"
                           src={imagess}
-                          alt="One"
+                          alt="img"
                         />
                       </Carousel.Item>
                     ))}

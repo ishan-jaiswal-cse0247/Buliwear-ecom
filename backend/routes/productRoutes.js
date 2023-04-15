@@ -35,6 +35,11 @@ productRouter.get('/', async (req, res) => {
   res.send(products);
 });
 
+productRouter.get('/adimg', async (req, res) => {
+  const products = await Product.find().sort({ createdAt: -1 }).limit(1);
+  res.send(products.image);
+});
+
 productRouter.get('/id/:id', async (req, res) => {
   const product = await Product.findOne({ id: req.params.id });
   if (product) {
