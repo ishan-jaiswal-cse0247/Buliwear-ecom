@@ -30,7 +30,7 @@ function Main2() {
               className="d-block "
               id="slide-img"
               src="../assets/media/Product/7.png"
-              alt="Two"
+              alt="three"
             />
           </Carousel.Item>
         </Carousel>
