@@ -13,8 +13,8 @@ function Main2() {
             <img
               className="d-block "
               id="slide-img"
-              src="../assets/media/Product/pink-dot-01.jpg.png"
-              alt="img"
+              src="../assets/media/Product/5.png"
+              alt="One"
             />
           </Carousel.Item>
           <Carousel.Item interval={1500}>
@@ -22,7 +22,7 @@ function Main2() {
               className="d-block "
               id="slide-img"
               src="../assets/media/Product/6.png"
-              alt="img"
+              alt="Two"
             />
           </Carousel.Item>
           <Carousel.Item interval={1500}>
@@ -30,7 +30,7 @@ function Main2() {
               className="d-block "
               id="slide-img"
               src="../assets/media/Product/7.png"
-              alt="img"
+              alt="Two"
             />
           </Carousel.Item>
         </Carousel>
