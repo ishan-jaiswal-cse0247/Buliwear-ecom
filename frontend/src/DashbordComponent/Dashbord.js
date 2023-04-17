@@ -91,14 +91,15 @@ function Dashbord() {
       .post('/api/products/create', formData)
       .then((res) => {
         //setMessage(res.json);
-        console.log('hi');
+        //console.log('hi');
       })
       .catch((err) => {
         console.log(err);
       });
 
     toast.info('Published Succesfully');
-    await delay(2000);
+    await delay(7000);
+    window.location.href = '/dashbord';
   }
 
   async function updateProduct(event) {
@@ -120,7 +121,7 @@ function Dashbord() {
     formData.append('oldprice', oldprice);
     formData.append('price', price);
 
-    axios
+    await axios
       .post('../api/products/update', formData)
       .then((res) => {
         //setMessage(res.json);
@@ -129,7 +130,7 @@ function Dashbord() {
         console.log(err);
       });
     toast.info('Updated Succesfully');
-    await delay(2000);
+    await delay(7000);
     window.location.href = '/dashbord';
   }
   async function removeProduct(event) {
@@ -149,7 +150,7 @@ function Dashbord() {
 
     if (data.status === 'ok') {
       toast.info('Deleted Succesfully');
-      await delay(2000);
+      await delay(4000);
       window.location.href = '/dashbord';
     }
   }
@@ -170,7 +171,7 @@ function Dashbord() {
     const data = await response.json();
     if (data.status === 'ok') {
       toast.info('Newsletter Sent');
-      await delay(2000);
+      await delay(4000);
       window.location.href = '/dashbord';
     }
   }
@@ -194,7 +195,7 @@ function Dashbord() {
     if (data.status === 'ok') {
       toast.info('Profile Updated');
       sessionStorage.setItem('usrname', usrname);
-      await delay(2000);
+      await delay(4000);
       window.location.href = '/';
     } else {
       toast.info('Error');

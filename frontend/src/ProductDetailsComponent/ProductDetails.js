@@ -71,7 +71,7 @@ function ProductDetails() {
     formData.append('oldprice', oldprice);
     formData.append('price', price);
 
-    axios
+    await axios
       .post('/api/products/update', formData)
       .then((res) => {
         //setMessage(res.json);
@@ -80,7 +80,7 @@ function ProductDetails() {
         console.log(err);
       });
     toast.info('Updated Succesfully');
-    await delay(2000);
+    await delay(7000);
     window.location.href = '/';
   }
   const upfileHandler = (event) => {

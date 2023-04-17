@@ -167,7 +167,7 @@ userRouter.post('/reseteml', async (req, res) => {
       from: `${businessmail}`,
       to: `${req.body.email}`,
       subject: 'Password reset link from Buliwear',
-      text: `To reset your password just click on this link - http://localhost:3000/ForgotPass/${req.body.email}
+      text: `To reset your password just click on this link - https://fluffy-teal-giraffe.cyclic.app/ForgotPass/${req.body.email}
       Buliwear`,
       // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'
     };
@@ -384,7 +384,7 @@ userRouter.post('/buy/:id', async (req, res) => {
       Email - ${req.body.email}
       MobNum - ${req.body.mobno}
       Address - ${req.body.address}
-      Product - http://localhost:3000/productdetails/${pid}
+      Product - https://fluffy-teal-giraffe.cyclic.app/productdetails/${pid}
       Thank you for Shopping with us, We will reach you as soon as possible`,
     // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'
   };
