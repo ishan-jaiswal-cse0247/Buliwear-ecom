@@ -87,7 +87,7 @@ function Dashbord() {
     formData.append('oldprice', oldprice);
     formData.append('price', price);
 
-    axios
+    await axios
       .post('/api/products/create', formData)
       .then((res) => {
         //setMessage(res.json);
@@ -99,7 +99,6 @@ function Dashbord() {
 
     toast.info('Published Succesfully');
     await delay(2000);
-    window.location.href = '/dashbord';
   }
 
   async function updateProduct(event) {
