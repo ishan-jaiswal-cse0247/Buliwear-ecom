@@ -1,4 +1,3 @@
-/*import prodata from '../data';*/
 import { useEffect, useReducer } from 'react';
 import axios from 'axios';
 import './Product.css';
@@ -36,7 +35,6 @@ function Product() {
       } catch (err) {
         dispatch({ type: 'FETCH_FAILED', payload: err.message });
       }
-
       //setproducts(result.data);
     };
     fetchData();

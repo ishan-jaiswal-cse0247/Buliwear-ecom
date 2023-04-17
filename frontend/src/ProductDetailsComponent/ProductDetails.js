@@ -72,15 +72,16 @@ function ProductDetails() {
     formData.append('price', price);
 
     axios
-      .post('../api/products/update', formData)
+      .post('/api/products/update', formData)
       .then((res) => {
         //setMessage(res.json);
       })
       .catch((err) => {
         console.log(err);
       });
-    toast.info('Published Succesfully');
+    toast.info('Updated Succesfully');
     await delay(2000);
+    window.location.href = '/';
   }
   const upfileHandler = (event) => {
     setImage(event.target.files);
@@ -104,7 +105,7 @@ function ProductDetails() {
     if (data.status === 'ok') {
       toast.info('Deleted Succesfully');
       await delay(2000);
-      window.location.href = '/dashbord';
+      window.location.href = '/';
     }
   }
   async function wishlistProduct() {
@@ -232,7 +233,7 @@ function ProductDetails() {
                           className="d-block "
                           id="slide-img"
                           src={imagess}
-                          alt="One"
+                          alt="img"
                         />
                       </Carousel.Item>
                     ))}
@@ -361,7 +362,7 @@ function ProductDetails() {
                           className="d-block "
                           id="slide-img"
                           src={imagess}
-                          alt="One"
+                          alt="img"
                         />
                       </Carousel.Item>
                     ))}
@@ -636,7 +637,7 @@ function ProductDetails() {
                           className="d-block "
                           id="slide-img"
                           src={imagess}
-                          alt="One"
+                          alt="img"
                         />
                       </Carousel.Item>
                     ))}

@@ -44,7 +44,7 @@ function Dashbord() {
   const brand = 'Buli-Wear';
   const [name, setName] = useState('');
   const [id, setId] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState([]);
   const [prdname, setPrdName] = useState('');
   //const [image1, setImage1] = useState('');
   const [link, setLink] = useState('');
@@ -88,15 +88,18 @@ function Dashbord() {
     formData.append('price', price);
 
     axios
-      .post('api/products/create', formData)
+      .post('/api/products/create', formData)
       .then((res) => {
         //setMessage(res.json);
+        console.log('hi');
       })
       .catch((err) => {
         console.log(err);
       });
+
     toast.info('Published Succesfully');
     await delay(2000);
+    window.location.href = '/dashbord';
   }
 
   async function updateProduct(event) {
@@ -126,8 +129,9 @@ function Dashbord() {
       .catch((err) => {
         console.log(err);
       });
-    toast.info('Published Succesfully');
+    toast.info('Updated Succesfully');
     await delay(2000);
+    window.location.href = '/dashbord';
   }
   async function removeProduct(event) {
     event.preventDefault();

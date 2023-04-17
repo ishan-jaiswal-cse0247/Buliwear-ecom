@@ -1,12 +1,11 @@
 import express from 'express';
 import Product from '../models/productModel.js';
 import multer from 'multer';
+import { v2 as cloudinary } from 'cloudinary';
 const productRouter = express.Router();
-const DIR = '../frontend/build/assets/media/Product/';
+const DIR = './uploads/';
+
 const storage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, DIR);
-  },
   filename: (req, file, callback) => {
     const filename =
       Date.now() + file.originalname.toLowerCase().split(' ').join('-');
@@ -30,9 +29,30 @@ var upload = multer({
   },
 });
 
+function uploadToCloudinary(file) {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload(
+      file.path,
+      { folder: 'Product' },
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.secure_url);
+        }
+      }
+    );
+  });
+}
+
 productRouter.get('/', async (req, res) => {
-  const products = await Product.find();
+  const products = await Product.find().sort({ createdAt: 1 });
   res.send(products);
+});
+
+productRouter.get('/adimg', async (req, res) => {
+  const product = await Product.findOne().sort({ createdAt: -1 }).limit(1);
+  res.send(product);
 });
 
 productRouter.get('/id/:id', async (req, res) => {
@@ -44,18 +64,13 @@ productRouter.get('/id/:id', async (req, res) => {
   }
 });
 
-productRouter.get('/', async (req, res) => {
-  const products = await Product.find();
-  res.send(products);
-});
-
 productRouter.post('/create', upload.array('image', 7), async (req, res) => {
-  //console.log(req.body);
   //const imag = req.body.image.name;
   const reqFiles = [];
   //const url = req.protocol + '://' + req.get('host');
   for (var i = 0; i < req.files.length; i++) {
-    reqFiles.push(`/assets/media/Product/${req.files[i].filename}`);
+    const url = await uploadToCloudinary(req.files[i]);
+    reqFiles.push(url);
   }
 
   try {
@@ -82,7 +97,8 @@ productRouter.post('/create', upload.array('image', 7), async (req, res) => {
 productRouter.post('/update', upload.array('image', 16), async (req, res) => {
   const reqFiles = [];
   for (var i = 0; i < req.files.length; i++) {
-    reqFiles.push(`/assets/media/Product/${req.files[i].filename}`);
+    const url = await uploadToCloudinary(req.files[i]);
+    reqFiles.push(url);
   }
 
   try {

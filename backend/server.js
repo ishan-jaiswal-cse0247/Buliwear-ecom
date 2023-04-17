@@ -3,17 +3,24 @@ import mongoose from 'mongoose';
 import path from 'path';
 import dotenv from 'dotenv';
 import cors from 'cors';
-//import seedRouter from './routes/seedRoutes.js';
+import { v2 as cloudinary } from 'cloudinary';
 import productRouter from './routes/productRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import boughtRouter from './routes/boughtRoutes.js';
 import wishlistRouter from './routes/wishlistRoutes.js';
+
 dotenv.config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
-    console.log('Connected to Mongo');
+    console.log('We are live');
   })
   .catch((err) => {
     console.log(err.message);
