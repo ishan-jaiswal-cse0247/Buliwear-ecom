@@ -28,7 +28,7 @@ function Contact() {
 
     if (data.status === 'ok') {
       toast.info('Thank you for your Feedback');
-      await delay(3000);
+      await delay(4000);
       window.location.href = '/contact';
     }
   }

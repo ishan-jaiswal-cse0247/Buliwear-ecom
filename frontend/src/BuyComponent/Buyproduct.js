@@ -36,7 +36,7 @@ function Buyproduct() {
 
     if (data.status === 'ok') {
       toast.info('Order placed we will contact you');
-      await delay(2000);
+      await delay(4000);
       window.location.href = `/productdetails/${id}`;
     }
   }

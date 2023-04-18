@@ -54,7 +54,7 @@ function ForgotPass() {
 
     if (data.status === 'ok') {
       toast.info('Profile Updated');
-      await delay(2000);
+      await delay(4000);
       window.location.href = '/login';
     } else {
       toast.info('Error');

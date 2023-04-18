@@ -25,7 +25,7 @@ function Footer() {
             </ul>
             <br />
           </div>
-          <p>copyright &copy; 2022 Buli-Wear. All rights reserved.</p>
+          <p>copyright &copy; 2023 Buliwear. All rights reserved.</p>
         </div>
       </footer>
     </div>

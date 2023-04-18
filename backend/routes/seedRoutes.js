@@ -1,6 +1,6 @@
 import express from 'express';
 import Product from '../models/productModel.js';
-import prodata from '../data.js';
+//import prodata from '../data.js';
 import User from '../models/userModel.js';
 
 const seedRouter = express.Router();
@@ -12,4 +12,4 @@ seedRouter.get('/', async (req, res) => {
   const createUsers = await User.insertMany(prodata.users);
   res.send({ createUsers, createProducts });
 });
-export default seedRouter;
+//export default seedRouter;

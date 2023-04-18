@@ -3,7 +3,7 @@ import Product from '../models/productModel.js';
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 const productRouter = express.Router();
-const DIR = './uploads/';
+//const DIR = './uploads/';
 
 const storage = multer.diskStorage({
   filename: (req, file, callback) => {

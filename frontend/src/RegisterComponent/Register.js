@@ -36,7 +36,7 @@ function Register() {
 
     if (data.status === 'ok') {
       toast.info('Registered Succesfully');
-      await delay(2000);
+      await delay(4000);
       window.location.href = '/login';
 
       //history.push('/login');

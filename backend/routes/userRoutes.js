@@ -73,7 +73,7 @@ userRouter.post('/signup', async (req, res) => {
     from: `${businessmail}`,
     to: `${req.body.email}`,
     subject: 'Welcome to Buliwear',
-    text: `Hi ${req.body.name}, thank you for joining our Buliwear Family.`,
+    text: `Hi ${req.body.name}, Thank you for joining our Buliwear Family.`,
     // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'
   };
 
@@ -207,7 +207,7 @@ userRouter.post('/resetpass/:emlid', async (req, res) => {
     var mailOptions = {
       from: `${businessmail}`,
       to: `${req.params.emlid}`,
-      subject: 'Password changed of your account from Buliwear',
+      subject: 'Password changed of your Buliwear account',
       text: `Password of your account ${req.params.emlid} has been changed as requested.
       Buliwear`,
       // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'
@@ -257,7 +257,7 @@ userRouter.post('/delete', async (req, res) => {
       subject: 'Deleated your account from Buliwear',
       text: `Your account ${req.body.email} from Buliwear has been deleated as per your request "${req.body.whymessage}", And we are taking action upon your feedback. 
       Thank you for being with use and if you change your mind you can join our Buliwear Family at any time.
-      Hope to see you again
+      Hope to see you again.
       
       Buliwear`,
       // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'
@@ -323,8 +323,9 @@ userRouter.post('/sendnews', async (req, res) => {
       var mailOptions = {
         from: `${businessmail}`,
         to: `${newsemailto}`,
-        subject: 'Welcome to Buliwear',
-        text: `${req.body.description}, Thank you for joining our Buliwear Family.`,
+        subject: 'News from Buliwear',
+        text: `${req.body.description}, 
+        Thank you for joining our Buliwear Family.`,
         // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'
       };
 

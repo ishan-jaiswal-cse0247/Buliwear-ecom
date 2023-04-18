@@ -6,10 +6,9 @@ function Privacy() {
       <h1>Privacy & Policy</h1>
       <hr />
       <p>
-        At Buli-Wear, accessible from Localhost, one of our main priorities is
-        the privacy of our visitors. This Privacy Policy document contains types
-        of information that is collected and recorded by Buli-Wear and how we
-        use it.
+        At Buli-Wear, one of our main priorities is the privacy of our visitors.
+        This Privacy Policy document contains types of information that is
+        collected and recorded by Buli-Wear and how we use it.
       </p>
 
       <p>

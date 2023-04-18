@@ -155,16 +155,6 @@ function ProductDetails() {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      dispatch({ type: 'FETCH_REQUEST' });
-      try {
-        const result = await axios.get(`/api/products/id/${id}`);
-        dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
-      } catch (err) {
-        dispatch({ type: 'FETCH_FAILED', payload: err.message });
-      }
-    };
-
     async function checkinwish() {
       const response = await fetch(`/api/wishlist/checkinwish/${sessEmail}`, {
         method: 'POST',
@@ -185,7 +175,18 @@ function ProductDetails() {
       setinWishlist(false);
       setWishimg('../assets/media/heartunfill.png');
     }
-    checkinwish();
+
+    const fetchData = async () => {
+      dispatch({ type: 'FETCH_REQUEST' });
+      try {
+        const result = await axios.get(`/api/products/id/${id}`);
+        dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+      } catch (err) {
+        dispatch({ type: 'FETCH_FAILED', payload: err.message });
+      }
+      checkinwish();
+    };
+
     fetchData();
   }, [id]);
 
