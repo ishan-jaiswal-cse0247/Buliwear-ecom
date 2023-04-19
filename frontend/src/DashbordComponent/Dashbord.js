@@ -292,7 +292,7 @@ function Dashbord() {
           <Collapse in={open}>
             <div id="example-collapse-text">
               <br />
-              <Container className="small-container">
+              <Container className="large-container">
                 <Form onSubmit={createProduct} encType="multipart/form-data">
                   <Form.Group className="mb-3" controlId="name">
                     <Form.Label>Name</Form.Label>
@@ -585,7 +585,7 @@ function Dashbord() {
           <Collapse in={SMopen}>
             <div id="example-collapse-text">
               <br />
-              <Container className="small-container">
+              <Container className="large-container">
                 <Form onSubmit={sendNews} encType="multipart/form-data">
                   <Form.Group className="mb-3" controlId="description">
                     <Form.Label>Write Message</Form.Label>
