@@ -24,7 +24,6 @@ function App() {
       <ToastContainer position="bottom-center" limit={1} />
       <Header />
       <Navbar />
-
       <div id="main">
         <Routes>
           <Route path="/" element={<Main1 />}></Route>

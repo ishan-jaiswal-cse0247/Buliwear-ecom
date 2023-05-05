@@ -36,7 +36,7 @@ function Contact() {
   return (
     <div id="main1">
       <br />
-      <h1>Contact Us</h1>
+      <h1>Contact</h1>
       <hr />
       <Row key={1} sm={2} md={2} lg={2} className="mb-3">
         <Col>

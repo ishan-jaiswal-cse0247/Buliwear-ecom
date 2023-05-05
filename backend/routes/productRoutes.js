@@ -2,9 +2,9 @@ import express from 'express';
 import Product from '../models/productModel.js';
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
+import Bought from '../models/boughtModel.js';
+import Wishlist from '../models/wishlistModel.js';
 const productRouter = express.Router();
-//const DIR = './uploads/';
-
 const storage = multer.diskStorage({
   filename: (req, file, callback) => {
     const filename =
@@ -46,7 +46,7 @@ function uploadToCloudinary(file) {
 }
 
 productRouter.get('/', async (req, res) => {
-  const products = await Product.find().sort({ createdAt: 1 });
+  const products = await Product.find().sort({ createdAt: -1 });
   res.send(products);
 });
 
@@ -59,6 +59,20 @@ productRouter.get('/id/:id', async (req, res) => {
   const product = await Product.findOne({ id: req.params.id });
   if (product) {
     res.send(product);
+  } else {
+    res.status(404).send({ message: 'Product Not Found' });
+  }
+});
+
+productRouter.get('/chartdata/:id', async (req, res) => {
+  const bought_count = await Bought.find({ item_id: req.params.id }).count();
+  const wish_count = await Wishlist.find({ item_id: req.params.id }).count();
+  const counted_data = [
+    { type_data: 'Time_Purchased', count_data: bought_count },
+    { type_data: 'Time_Wishlisted', count_data: wish_count },
+  ];
+  if (counted_data) {
+    res.send(counted_data);
   } else {
     res.status(404).send({ message: 'Product Not Found' });
   }

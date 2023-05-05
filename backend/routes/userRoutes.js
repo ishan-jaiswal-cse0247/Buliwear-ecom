@@ -5,6 +5,7 @@ import User from '../models/userModel.js';
 import Product from '../models/productModel.js';
 import Bought from '../models/boughtModel.js';
 import nodemailer from 'nodemailer';
+import Wishlist from '../models/wishlistModel.js';
 
 const userRouter = express.Router();
 const businessmail = 'buliwear.ecom@gmail.com';
@@ -81,7 +82,7 @@ userRouter.post('/signup', async (req, res) => {
     if (error) {
       console.log(error);
     } else {
-      console.log('Email sent: ' + info.response);
+      //console.log('Email sent: ' + info.response);
     }
   });
 });
@@ -176,7 +177,7 @@ userRouter.post('/reseteml', async (req, res) => {
       if (error) {
         console.log(error);
       } else {
-        console.log('Email sent: ' + info.response);
+        //console.log('Email sent: ' + info.response);
       }
     });
     res.json({ status: 'ok' });
@@ -217,7 +218,7 @@ userRouter.post('/resetpass/:emlid', async (req, res) => {
       if (error) {
         console.log(error);
       } else {
-        console.log('Email sent: ' + info.response);
+        //console.log('Email sent: ' + info.response);
       }
     });
     res.json({ status: 'ok' });
@@ -242,7 +243,8 @@ userRouter.post('/delete', async (req, res) => {
 
   if (isPasswordValid) {
     await User.deleteOne({ email: req.body.email });
-
+    await Bought.deleteMany({ boughtby: req.body.email });
+    await Wishlist.deleteMany({ wishlistby: req.body.email });
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -267,7 +269,7 @@ userRouter.post('/delete', async (req, res) => {
       if (error) {
         console.log(error);
       } else {
-        console.log('Email sent: ' + info.response);
+        //console.log('Email sent: ' + info.response);
       }
     });
     return res.json({ status: 'ok' });
@@ -299,7 +301,7 @@ userRouter.post('/contact', async (req, res) => {
     if (error) {
       console.log(error);
     } else {
-      console.log('Email sent: ' + info.response);
+      //console.log('Email sent: ' + info.response);
       return res.json({ status: 'ok' });
     }
   });
@@ -333,7 +335,7 @@ userRouter.post('/sendnews', async (req, res) => {
         if (error) {
           console.log(error);
         } else {
-          console.log('Email sent: ' + info.response);
+          //console.log('Email sent: ' + info.response);
         }
       });
     });
@@ -358,6 +360,7 @@ userRouter.post('/buy/:id', async (req, res) => {
       item_name: product.name,
       image: product.image[0],
       item_id: pid,
+      item_count: req.body.count,
     });
   }
 
@@ -385,6 +388,7 @@ userRouter.post('/buy/:id', async (req, res) => {
       Email - ${req.body.email}
       MobNum - ${req.body.mobno}
       Address - ${req.body.address}
+      No. of item(s) - ${req.body.count}
       Product - https://fluffy-teal-giraffe.cyclic.app/productdetails/${pid}
       Thank you for Shopping with us, We will reach you as soon as possible`,
     // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'
@@ -394,7 +398,7 @@ userRouter.post('/buy/:id', async (req, res) => {
     if (error) {
       console.log(error);
     } else {
-      console.log('Email sent: ' + info.response);
+      //console.log('Email sent: ' + info.response);
     }
   });
 });

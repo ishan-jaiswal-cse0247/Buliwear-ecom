@@ -11,6 +11,9 @@ import Collapse from 'react-bootstrap/Collapse';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import { toast } from 'react-toastify';
+import { RWebShare } from 'react-web-share';
+import { PieChart, Pie, Legend, Tooltip, Cell } from 'recharts';
+const COLORS = ['#000000', '#808080'];
 
 const sessAdmin = sessionStorage.getItem('adminstat');
 const name = sessionStorage.getItem('usrname');
@@ -24,6 +27,19 @@ const reducer = (state, action) => {
       return { ...state, product: action.payload, loading: false };
     case 'FETCH_FAILED':
       return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+const reducerr = (state, action) => {
+  switch (action.type) {
+    case 'FETCH_REQUEST':
+      return { ...state, loadingg: true };
+    case 'FETCH_SUCCESS':
+      return { ...state, chartdata: action.payload, loadingg: false };
+    case 'FETCH_FAILED':
+      return { ...state, loadingg: false, errorr: action.payload };
     default:
       return state;
   }
@@ -77,7 +93,7 @@ function ProductDetails() {
         //setMessage(res.json);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
     toast.info('Updated Succesfully');
     await delay(7000);
@@ -154,6 +170,12 @@ function ProductDetails() {
     error: '',
   });
 
+  const [{ loadingg, errorr, chartdata }, dispatchs] = useReducer(reducerr, {
+    chartdata: [],
+    loadingg: true,
+    errorr: '',
+  });
+
   useEffect(() => {
     async function checkinwish() {
       const response = await fetch(`/api/wishlist/checkinwish/${sessEmail}`, {
@@ -190,6 +212,19 @@ function ProductDetails() {
     fetchData();
   }, [id]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatchs({ type: 'FETCH_REQUEST' });
+      try {
+        const result = await axios.get(`/api/products/chartdata/${id}`);
+        dispatchs({ type: 'FETCH_SUCCESS', payload: result.data });
+      } catch (err) {
+        dispatchs({ type: 'FETCH_FAILED', payload: err.message });
+      }
+    };
+    fetchData();
+  }, [id, open]);
+
   function handleWish() {
     if (inWishlist) {
       unwishlistProduct();
@@ -221,10 +256,27 @@ function ProductDetails() {
           <Col>
             <Card>
               <br />
-              <button onClick={handleWish} className="wishbtn">
-                <img src={wishimg} alt="w" height="27px" width="27px" />
-              </button>
-              <br />
+              <div className="wi_shbtn">
+                <button onClick={handleWish} className="wishbtn">
+                  <img src={wishimg} alt="w" height="27px" width="27px" />
+                </button>
+                <RWebShare
+                  data={{
+                    text: 'Share',
+                    url: `https://fluffy-teal-giraffe.cyclic.app/productdetails/${product.id}`,
+                    title: 'Share Buliwear product',
+                  }}
+                >
+                  <button className="shbtn">
+                    <img
+                      src="../assets/media/share.png"
+                      alt="w"
+                      height="27px"
+                      width="27px"
+                    />
+                  </button>
+                </RWebShare>
+              </div>
               <Link to={`/productdetails/${product.id}`}>
                 <div className="Slider">
                   <Carousel variant="dark">
@@ -290,6 +342,7 @@ function ProductDetails() {
                   >
                     <span>Other links</span>
                   </button>
+                  <br />
                   <Collapse in={RMopen}>
                     <div id="view-desc">
                       <a href={product.link}>
@@ -305,7 +358,6 @@ function ProductDetails() {
                       </a>
                     </div>
                   </Collapse>
-                  <br />
                   <br />
                   <button className="hero-button">
                     <Link to={`/buyproduct/${product.id}`} className="nav-link">
@@ -600,10 +652,41 @@ function ProductDetails() {
               aria-expanded={open}
               className="hero-button-drop"
             >
-              <span>View Description</span>
+              <span>View details of Product</span>
             </button>
             <Collapse in={open}>
-              <div id="view-desc">{product.description}</div>
+              <div id="view-desc">
+                {loadingg ? (
+                  <div>Please Wait...</div>
+                ) : errorr ? (
+                  <div>{errorr}</div>
+                ) : (
+                  <div className="chartbox">
+                    <PieChart width={400} height={400}>
+                      <Pie
+                        data={chartdata}
+                        dataKey="count_data"
+                        nameKey="type_data"
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={70}
+                        outerRadius={150}
+                        fill="grey"
+                        label
+                      >
+                        {chartdata.map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={COLORS[index % COLORS.length]}
+                          />
+                        ))}
+                      </Pie>
+                      <Legend />
+                      <Tooltip />
+                    </PieChart>
+                  </div>
+                )}
+              </div>
             </Collapse>
           </Container>
         </Row>

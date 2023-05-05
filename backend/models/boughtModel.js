@@ -6,6 +6,7 @@ const boughtSchema = new mongoose.Schema(
     item_name: { type: String, required: true },
     image: { type: String, required: true },
     item_id: { type: String, required: true },
+    item_count: { type: Number, required: true },
   },
   {
     timestamps: true,

@@ -39,15 +39,36 @@ img {
   margin-left: auto;
   margin-right: auto;
 }
+
+.wi_shbtn {
+  margin-left: 75%;
+}
+
 .wishbtn {
   background-color: white;
   border: none;
-  margin-left: 83%;
-  margin-top: 10px;
   cursor: default;
+  margin-left: 10%;
   width: fit-content;
   height: fit-content;
 }
+.shbtn {
+  background-color: white;
+  border: none;
+  cursor: default;
+  width: fit-content;
+  margin-left: 10%;
+  height: fit-content;
+}
+
+.chartbox {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  height: fit-content;
+  width: fit-content;
+}
+
 button {
   cursor: default;
 }
