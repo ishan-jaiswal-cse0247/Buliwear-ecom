@@ -410,4 +410,38 @@ userRouter.post('/buy/:id', async (req, res) => {
   });
 });
 
+userRouter.get('/allchartdata', async (req, res) => {
+  const alluser_count = await User.count();
+  const allbought_count = await Bought.count();
+  const allwish_count = await Wishlist.count();
+  const counted_data = [
+    { type_data: 'Total_Users', count_data: alluser_count },
+    { type_data: 'Total_Purchases', count_data: allbought_count },
+    { type_data: 'Total_Wishlistes', count_data: allwish_count },
+  ];
+  if (counted_data) {
+    res.send(counted_data);
+  } else {
+    res.status(404).send({ message: 'Error' });
+  }
+});
+
+userRouter.get('/userchartdata/:id', async (req, res) => {
+  const userbought_count = await Bought.find({
+    boughtby: req.params.id,
+  }).count();
+  const userwish_count = await Wishlist.find({
+    wishlistby: req.params.id,
+  }).count();
+  const counted_data = [
+    { type_data: 'Item_Purchased', count_data: userbought_count },
+    { type_data: 'Item_Wishlisted', count_data: userwish_count },
+  ];
+  if (counted_data) {
+    res.send(counted_data);
+  } else {
+    res.status(404).send({ message: 'Error' });
+  }
+});
+
 export default userRouter;

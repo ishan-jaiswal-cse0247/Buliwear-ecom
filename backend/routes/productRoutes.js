@@ -74,7 +74,7 @@ productRouter.get('/chartdata/:id', async (req, res) => {
   if (counted_data) {
     res.send(counted_data);
   } else {
-    res.status(404).send({ message: 'Product Not Found' });
+    res.status(404).send({ message: 'Error' });
   }
 });
 

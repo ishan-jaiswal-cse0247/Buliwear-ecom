@@ -10,6 +10,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
+import { PieChart, Pie, Legend, Tooltip, Cell } from 'recharts';
+const COLORS = ['#000000', '#808080', '#CACACA'];
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -32,6 +34,19 @@ const reducerr = (state, action) => {
       return { ...state, wishlists: action.payload, loadingg: false };
     case 'FETCH_FAILED':
       return { ...state, loadingg: false, errorr: action.payload };
+    default:
+      return state;
+  }
+};
+
+const chartreducer = (state, action) => {
+  switch (action.type) {
+    case 'FETCH_REQUEST':
+      return { ...state, chartloading: true };
+    case 'FETCH_SUCCESS':
+      return { ...state, chartdata: action.payload, chartloading: false };
+    case 'FETCH_FAILED':
+      return { ...state, chartloading: false, charterror: action.payload };
     default:
       return state;
   }
@@ -239,6 +254,39 @@ function Dashbord() {
     errorr: '',
   });
 
+  const [{ chartloading, charterror, chartdata }, chartdispatch] = useReducer(
+    chartreducer,
+    {
+      chartdata: [],
+      chartloading: true,
+      charterror: '',
+    }
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      chartdispatch({ type: 'FETCH_REQUEST' });
+      if (sessAdmin === 'true') {
+        try {
+          const result = await axios.get(`/api/users/allchartdata`);
+          chartdispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+        } catch (err) {
+          chartdispatch({ type: 'FETCH_FAILED', payload: err.message });
+        }
+      } else {
+        try {
+          const result = await axios.get(
+            `/api/users/userchartdata/${sessEmail}`
+          );
+          chartdispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+        } catch (err) {
+          chartdispatch({ type: 'FETCH_FAILED', payload: err.message });
+        }
+      }
+    };
+    fetchData();
+  }, [sessEmail, sessAdmin]);
+
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
@@ -278,338 +326,385 @@ function Dashbord() {
           <hr />
           <h4>
             Hi' there <i>{sesname}</i>
-            <br />
           </h4>
-          <br />
-          <button
-            onClick={() => setOpen(!open)}
-            aria-controls="example-collapse-text"
-            aria-expanded={open}
-            className="hero-button-drop"
-          >
-            <span>Add Product</span>
-          </button>
-          <Collapse in={open}>
-            <div id="example-collapse-text">
+          <Row key={1} sm={2} md={2} lg={2} className="mb-3">
+            <Col>
+              {chartloading ? (
+                <div>Please Wait...</div>
+              ) : charterror ? (
+                <div>{charterror}</div>
+              ) : (
+                <div className="chartbox">
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      data={chartdata}
+                      dataKey="count_data"
+                      nameKey="type_data"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={70}
+                      outerRadius={150}
+                      fill="grey"
+                      label
+                    >
+                      {chartdata.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Legend />
+                    <Tooltip />
+                  </PieChart>
+                </div>
+              )}
+            </Col>
+            <Col>
               <br />
-              <Container className="large-container">
-                <Form onSubmit={createProduct} encType="multipart/form-data">
-                  <Form.Group className="mb-3" controlId="name">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                      placeholder="Name of product"
-                      type="text"
-                      onChange={(e) => setName(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="id">
-                    <Form.Label>Id of Product</Form.Label>
-                    <Form.Control
-                      placeholder="itm000"
-                      type="text"
-                      onChange={(e) => setId(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="link">
-                    <Form.Label>Refrel link</Form.Label>
-                    <Form.Control
-                      placeholder="Link of Product"
-                      type="text"
-                      onChange={(e) => setLink(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="link0">
-                    <Form.Label>Refrel link (second)</Form.Label>
-                    <Form.Control
-                      placeholder="Link of Product"
-                      type="text"
-                      onChange={(e) => setLink0(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="link1">
-                    <Form.Label>Refrel link (third)</Form.Label>
-                    <Form.Control
-                      placeholder="Link of Product"
-                      type="text"
-                      onChange={(e) => setLink1(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="size">
-                    <Form.Label>Size range on months</Form.Label>
-                    <Form.Control
-                      placeholder="0 - 6 Months"
-                      type="text"
-                      onChange={(e) => setSize(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="labelsize">
-                    <Form.Label>Label size </Form.Label>
-                    <Form.Control
-                      placeholder="(S/M/L/XL)"
-                      type="text"
-                      onChange={(e) => setlabelsize(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="sex">
-                    <Form.Label>Ideal for (Boy/Girl)</Form.Label>
-                    <Form.Control
-                      placeholder="(Boy/Girl/Unisex)"
-                      type="text"
-                      onChange={(e) => setSex(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="description">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Description"
-                      as="textarea"
-                      onChange={(e) => setDescription(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="oldprice">
-                    <Form.Label>Old Price</Form.Label>
-                    <Form.Control
-                      type="number"
-                      placeholder="Old price"
-                      onChange={(e) => setOldPrice(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="price">
-                    <Form.Label>Price</Form.Label>
-                    <Form.Control
-                      placeholder="Price"
-                      type="number"
-                      onChange={(e) => setPrice(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="image">
-                    <Form.Label>Image of Product</Form.Label>
-                    <Form.Control
-                      type="file"
-                      //__filename="image"
-                      onChange={upfileHandler}
-                      multiple
-                      required
-                    />
-                  </Form.Group>
+              <br />
+              <br />
+              <br />
+              <button
+                onClick={() => setOpen(!open)}
+                aria-controls="example-collapse-text"
+                aria-expanded={open}
+                className="hero-button-drop"
+              >
+                <span>Add Product</span>
+              </button>
+              <Collapse in={open}>
+                <div id="example-collapse-text">
+                  <br />
+                  <Container className="large-container">
+                    <Form
+                      onSubmit={createProduct}
+                      encType="multipart/form-data"
+                    >
+                      <Form.Group className="mb-3" controlId="name">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
+                          placeholder="Name of product"
+                          type="text"
+                          onChange={(e) => setName(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="id">
+                        <Form.Label>Id of Product</Form.Label>
+                        <Form.Control
+                          placeholder="itm000"
+                          type="text"
+                          onChange={(e) => setId(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="link">
+                        <Form.Label>Refrel link</Form.Label>
+                        <Form.Control
+                          placeholder="Link of Product"
+                          type="text"
+                          onChange={(e) => setLink(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="link0">
+                        <Form.Label>Refrel link (second)</Form.Label>
+                        <Form.Control
+                          placeholder="Link of Product"
+                          type="text"
+                          onChange={(e) => setLink0(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="link1">
+                        <Form.Label>Refrel link (third)</Form.Label>
+                        <Form.Control
+                          placeholder="Link of Product"
+                          type="text"
+                          onChange={(e) => setLink1(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="size">
+                        <Form.Label>Size range on months</Form.Label>
+                        <Form.Control
+                          placeholder="0 - 6 Months"
+                          type="text"
+                          onChange={(e) => setSize(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="labelsize">
+                        <Form.Label>Label size </Form.Label>
+                        <Form.Control
+                          placeholder="(S/M/L/XL)"
+                          type="text"
+                          onChange={(e) => setlabelsize(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="sex">
+                        <Form.Label>Ideal for (Boy/Girl)</Form.Label>
+                        <Form.Control
+                          placeholder="(Boy/Girl/Unisex)"
+                          type="text"
+                          onChange={(e) => setSex(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="description">
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Description"
+                          as="textarea"
+                          onChange={(e) => setDescription(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="oldprice">
+                        <Form.Label>Old Price</Form.Label>
+                        <Form.Control
+                          type="number"
+                          placeholder="Old price"
+                          onChange={(e) => setOldPrice(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="price">
+                        <Form.Label>Price</Form.Label>
+                        <Form.Control
+                          placeholder="Price"
+                          type="number"
+                          onChange={(e) => setPrice(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="image">
+                        <Form.Label>Image of Product</Form.Label>
+                        <Form.Control
+                          type="file"
+                          //__filename="image"
+                          onChange={upfileHandler}
+                          multiple
+                          required
+                        />
+                      </Form.Group>
 
-                  <br />
-                  <div className="mb-3">
-                    <button className="hero-button" type="submit">
-                      Add
-                    </button>
-                    <br />
-                  </div>
-                </Form>
-              </Container>
-            </div>
-          </Collapse>
-          <hr />
-          <button
-            onClick={() => setNMOpen(!NMopen)}
-            aria-controls="example-collapse-text"
-            aria-expanded={NMopen}
-            className="hero-button-drop"
-          >
-            <span>Update Product</span>
-          </button>
-          <Collapse in={NMopen}>
-            <div id="example-collapse-text">
+                      <br />
+                      <div className="mb-3">
+                        <button className="hero-button" type="submit">
+                          Add
+                        </button>
+                        <br />
+                      </div>
+                    </Form>
+                  </Container>
+                </div>
+              </Collapse>
               <br />
-              <Container className="large-container">
-                <Form onSubmit={updateProduct} encType="multipart/form-data">
-                  <Form.Group className="mb-3" controlId="prdname">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      onChange={(e) => setPrdName(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="id">
-                    <Form.Label>Id of Product</Form.Label>
-                    <Form.Control
-                      type="text"
-                      onChange={(e) => setId(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="link">
-                    <Form.Label>Refrel link</Form.Label>
-                    <Form.Control
-                      type="text"
-                      onChange={(e) => setLink(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="link0">
-                    <Form.Label>Refrel link (second)</Form.Label>
-                    <Form.Control
-                      type="text"
-                      onChange={(e) => setLink0(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="link1">
-                    <Form.Label>Refrel link (third)</Form.Label>
-                    <Form.Control
-                      type="text"
-                      onChange={(e) => setLink1(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="size">
-                    <Form.Label>Size range on months</Form.Label>
-                    <Form.Control
-                      type="text"
-                      onChange={(e) => setSize(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="labelsize">
-                    <Form.Label>Label size </Form.Label>
-                    <Form.Control
-                      type="text"
-                      onChange={(e) => setlabelsize(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="sex">
-                    <Form.Label>Ideal for (Boy/Girl)</Form.Label>
-                    <Form.Control
-                      type="text"
-                      onChange={(e) => setSex(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="description">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control
-                      type="text"
-                      as="textarea"
-                      onChange={(e) => setDescription(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="oldprice">
-                    <Form.Label>Old Price</Form.Label>
-                    <Form.Control
-                      type="number"
-                      onChange={(e) => setOldPrice(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="price">
-                    <Form.Label>Price</Form.Label>
-                    <Form.Control
-                      type="number"
-                      onChange={(e) => setPrice(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="image">
-                    <Form.Label>Image of Product</Form.Label>
-                    <Form.Control
-                      type="file"
-                      onChange={upfileHandler}
-                      multiple
-                      required
-                    />
-                  </Form.Group>
+              <br />
+              <button
+                onClick={() => setNMOpen(!NMopen)}
+                aria-controls="example-collapse-text"
+                aria-expanded={NMopen}
+                className="hero-button-drop"
+              >
+                <span>Update Product</span>
+              </button>
+              <Collapse in={NMopen}>
+                <div id="example-collapse-text">
+                  <br />
+                  <Container className="large-container">
+                    <Form
+                      onSubmit={updateProduct}
+                      encType="multipart/form-data"
+                    >
+                      <Form.Group className="mb-3" controlId="prdname">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          onChange={(e) => setPrdName(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="id">
+                        <Form.Label>Id of Product</Form.Label>
+                        <Form.Control
+                          type="text"
+                          onChange={(e) => setId(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="link">
+                        <Form.Label>Refrel link</Form.Label>
+                        <Form.Control
+                          type="text"
+                          onChange={(e) => setLink(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="link0">
+                        <Form.Label>Refrel link (second)</Form.Label>
+                        <Form.Control
+                          type="text"
+                          onChange={(e) => setLink0(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="link1">
+                        <Form.Label>Refrel link (third)</Form.Label>
+                        <Form.Control
+                          type="text"
+                          onChange={(e) => setLink1(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="size">
+                        <Form.Label>Size range on months</Form.Label>
+                        <Form.Control
+                          type="text"
+                          onChange={(e) => setSize(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="labelsize">
+                        <Form.Label>Label size </Form.Label>
+                        <Form.Control
+                          type="text"
+                          onChange={(e) => setlabelsize(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="sex">
+                        <Form.Label>Ideal for (Boy/Girl)</Form.Label>
+                        <Form.Control
+                          type="text"
+                          onChange={(e) => setSex(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="description">
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control
+                          type="text"
+                          as="textarea"
+                          onChange={(e) => setDescription(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="oldprice">
+                        <Form.Label>Old Price</Form.Label>
+                        <Form.Control
+                          type="number"
+                          onChange={(e) => setOldPrice(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="price">
+                        <Form.Label>Price</Form.Label>
+                        <Form.Control
+                          type="number"
+                          onChange={(e) => setPrice(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-3" controlId="image">
+                        <Form.Label>Image of Product</Form.Label>
+                        <Form.Control
+                          type="file"
+                          onChange={upfileHandler}
+                          multiple
+                          required
+                        />
+                      </Form.Group>
 
-                  <br />
-                  <div className="mb-3">
-                    <button className="hero-button" type="submit">
-                      Update
-                    </button>
-                    <br />
-                  </div>
-                </Form>
-              </Container>
-            </div>
-          </Collapse>
-          <hr />
-          <button
-            onClick={() => setRMOpen(!RMopen)}
-            aria-controls="example-collapse-text"
-            aria-expanded={RMopen}
-            className="hero-button-drop"
-          >
-            <span>Remove Product</span>
-          </button>
-          <Collapse in={RMopen}>
-            <div id="example-collapse-text">
+                      <br />
+                      <div className="mb-3">
+                        <button className="hero-button" type="submit">
+                          Update
+                        </button>
+                        <br />
+                      </div>
+                    </Form>
+                  </Container>
+                </div>
+              </Collapse>
               <br />
-              <Container className="large-container">
-                <Form onSubmit={removeProduct} encType="multipart/form-data">
-                  <Form.Group className="mb-3" controlId="id">
-                    <Form.Label>Insert Product ID</Form.Label>
-                    <Form.Control
-                      type="text"
-                      onChange={(e) => setId(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <br />
-                  <div className="mb-3">
-                    <button className="hero-button" type="submit">
-                      Remove
-                    </button>
-                    <br />
-                  </div>
-                </Form>
-              </Container>
-            </div>
-          </Collapse>
-          <hr />
-          <button
-            onClick={() => setSMOpen(!SMopen)}
-            aria-controls="example-collapse-text"
-            aria-expanded={SMopen}
-            className="hero-button-drop"
-          >
-            <span>Send Message</span>
-          </button>
-          <Collapse in={SMopen}>
-            <div id="example-collapse-text">
               <br />
-              <Container className="large-container">
-                <Form onSubmit={sendNews} encType="multipart/form-data">
-                  <Form.Group className="mb-3" controlId="description">
-                    <Form.Label>Write Message</Form.Label>
-                    <Form.Control
-                      type="text"
-                      as="textarea"
-                      onChange={(e) => setDescription(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
+              <button
+                onClick={() => setRMOpen(!RMopen)}
+                aria-controls="example-collapse-text"
+                aria-expanded={RMopen}
+                className="hero-button-drop"
+              >
+                <span>Remove Product</span>
+              </button>
+              <Collapse in={RMopen}>
+                <div id="example-collapse-text">
                   <br />
-                  <div className="mb-3">
-                    <button className="hero-button" type="submit">
-                      Send
-                    </button>
-                    <br />
-                  </div>
-                </Form>
-              </Container>
-            </div>
-          </Collapse>
-          <br />
-          <hr />
-          <br />
+                  <Container className="large-container">
+                    <Form
+                      onSubmit={removeProduct}
+                      encType="multipart/form-data"
+                    >
+                      <Form.Group className="mb-3" controlId="id">
+                        <Form.Label>Insert Product ID</Form.Label>
+                        <Form.Control
+                          type="text"
+                          onChange={(e) => setId(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <br />
+                      <div className="mb-3">
+                        <button className="hero-button" type="submit">
+                          Remove
+                        </button>
+                        <br />
+                      </div>
+                    </Form>
+                  </Container>
+                </div>
+              </Collapse>
+              <br />
+              <br />
+              <button
+                onClick={() => setSMOpen(!SMopen)}
+                aria-controls="example-collapse-text"
+                aria-expanded={SMopen}
+                className="hero-button-drop"
+              >
+                <span>Send Message</span>
+              </button>
+              <Collapse in={SMopen}>
+                <div id="example-collapse-text">
+                  <br />
+                  <Container className="large-container">
+                    <Form onSubmit={sendNews} encType="multipart/form-data">
+                      <Form.Group className="mb-3" controlId="description">
+                        <Form.Label>Write Message</Form.Label>
+                        <Form.Control
+                          type="text"
+                          as="textarea"
+                          onChange={(e) => setDescription(e.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <br />
+                      <div className="mb-3">
+                        <button className="hero-button" type="submit">
+                          Send
+                        </button>
+                        <br />
+                      </div>
+                    </Form>
+                  </Container>
+                </div>
+              </Collapse>
+            </Col>
+          </Row>
           <br />
         </div>
       );
@@ -619,226 +714,70 @@ function Dashbord() {
           <br />
           <h1>Dashbord </h1>
           <hr />
-          <p>
-            <h4>
-              Hi' there <i>{sesname}</i>
-              <br />
-            </h4>
-            <br />
-            <br />
-          </p>
-          <button
-            onClick={() => setOpen(!open)}
-            aria-controls="example-collapse-text"
-            aria-expanded={open}
-            className="hero-button-drop"
-          >
-            <span>Update profile</span>
-          </button>
-          <Collapse in={open}>
-            <div id="example-collapse-text">
-              <br />
-              <Container className="large-container">
-                <Form onSubmit={updateProfile}>
-                  <Form.Group className="mb-3" controlId="usrname">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      onChange={(e) => setUsrName(e.target.value)}
-                      placeholder={sesname}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="email">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      value={sessEmail}
-                      readOnly
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="password">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      autoComplete="on"
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
 
-                  <div className="mb-3">
-                    <button className="hero-button" type="submit">
-                      Update
-                    </button>
-                  </div>
-                </Form>
-              </Container>
-            </div>
-          </Collapse>
-          <br />
-          <p>
-            <hr />
-            <div>
-              <button
-                onClick={() => setNMOpen(!NMopen)}
-                aria-controls="example-collapse-text"
-                aria-expanded={NMopen}
-                className="hero-button-drop"
-              >
-                <span>View Wishlist</span>
-              </button>
-              <Collapse in={NMopen}>
-                <div id="example-collapse-text">
-                  <Container className="large-container">
-                    <br />
-                    {loadingg ? (
-                      <div>Please Wait...</div>
-                    ) : errorr ? (
-                      <div>{errorr}</div>
-                    ) : (
-                      wishlists.map((items) => (
-                        <Row
-                          key={items.item_id}
-                          sm={12}
-                          md={12}
-                          lg={12}
-                          className="w-100"
-                        >
-                          <Col sm={4} md={4} lg={4} className="w-25">
-                            <Card>
-                              <Link to={`/productdetails/${items.item_id}`}>
-                                <img
-                                  src={items.image}
-                                  className="card-img-top"
-                                  alt={items.item_name}
-                                  height="150px"
-                                  width="10px"
-                                />
-                              </Link>
-                            </Card>
-                          </Col>
-
-                          <Col sm={5} md={5} lg={8} className="w-75">
-                            <Card>
-                              <Card.Body>
-                                <p>
-                                  <Link to={`/productdetails/${items.item_id}`}>
-                                    <b>{items.item_name}</b>
-                                  </Link>
-                                </p>
-                                <br />
-                                <Card.Subtitle>
-                                  {` Date - ${items.createdAt.slice(0, 10)}`}
-                                </Card.Subtitle>
-                                <br />
-                                <Card.Subtitle>
-                                  {`Time - ${items.createdAt.slice(11, 19)}`}
-                                </Card.Subtitle>
-                              </Card.Body>
-                            </Card>
-                            <br />
-                          </Col>
-                        </Row>
-                      ))
-                    )}
-                    <br />
-                  </Container>
+          <h4>
+            Hi' there <i>{sesname}</i>
+          </h4>
+          <Row key={1} sm={2} md={2} lg={2} className="mb-3">
+            <Col>
+              {chartloading ? (
+                <div>Please Wait...</div>
+              ) : charterror ? (
+                <div>{charterror}</div>
+              ) : (
+                <div className="chartbox">
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      data={chartdata}
+                      dataKey="count_data"
+                      nameKey="type_data"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={70}
+                      outerRadius={150}
+                      fill="grey"
+                      label
+                    >
+                      {chartdata.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Legend />
+                    <Tooltip />
+                  </PieChart>
                 </div>
-              </Collapse>
-              <hr />
-            </div>
-            <div>
+              )}
+            </Col>
+            <Col>
+              <br />
+              <br />
+              <br />
+              <br />
               <button
-                onClick={() => setRMOpen(!RMopen)}
+                onClick={() => setOpen(!open)}
                 aria-controls="example-collapse-text"
-                aria-expanded={RMopen}
+                aria-expanded={open}
                 className="hero-button-drop"
               >
-                <span>View order history</span>
+                <span>Update profile</span>
               </button>
-              <Collapse in={RMopen}>
-                <div id="example-collapse-text">
-                  <Container className="large-container">
-                    <br />
-                    {loading ? (
-                      <div>Please Wait...</div>
-                    ) : error ? (
-                      <div>{error}</div>
-                    ) : (
-                      purchases.map((items) => (
-                        <Row
-                          key={items.item_id}
-                          sm={12}
-                          md={12}
-                          lg={12}
-                          className="w-100"
-                        >
-                          <Col sm={4} md={4} lg={4} className="w-25">
-                            <Card>
-                              <Link to={`/productdetails/${items.item_id}`}>
-                                <img
-                                  src={items.image}
-                                  className="card-img-top"
-                                  alt={items.item_name}
-                                  height="150px"
-                                  width="10px"
-                                />
-                              </Link>
-                            </Card>
-                          </Col>
-
-                          <Col sm={5} md={5} lg={8} className="w-75">
-                            <Card>
-                              <Card.Body>
-                                <p>
-                                  <Link to={`/productdetails/${items.item_id}`}>
-                                    <b>{items.item_name}</b>
-                                  </Link>
-                                </p>
-                                <br />
-                                <Card.Subtitle>
-                                  {` Date - ${items.createdAt.slice(0, 10)}`}
-                                </Card.Subtitle>
-                                <br />
-                                <Card.Subtitle>
-                                  {`Time - ${items.createdAt.slice(11, 19)}`}
-                                </Card.Subtitle>
-                              </Card.Body>
-                            </Card>
-                            <br />
-                          </Col>
-                        </Row>
-                      ))
-                    )}
-                    <br />
-                  </Container>
-                </div>
-              </Collapse>
-            </div>
-          </p>
-          <p>
-            <hr />
-
-            <div>
-              <button
-                onClick={() => setSMOpen(!SMopen)}
-                aria-controls="example-collapse-text"
-                aria-expanded={SMopen}
-                className="hero-button-drop"
-              >
-                <span>Delete Account</span>
-              </button>
-              <Collapse in={SMopen}>
+              <Collapse in={open}>
                 <div id="example-collapse-text">
                   <br />
                   <Container className="large-container">
-                    <Form
-                      onSubmit={deleteProfile}
-                      encType="multipart/form-data"
-                    >
+                    <Form onSubmit={updateProfile}>
+                      <Form.Group className="mb-3" controlId="usrname">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          onChange={(e) => setUsrName(e.target.value)}
+                          placeholder={sesname}
+                          required
+                        />
+                      </Form.Group>
                       <Form.Group className="mb-3" controlId="email">
                         <Form.Label>Email</Form.Label>
                         <Form.Control
@@ -858,32 +797,223 @@ function Dashbord() {
                           required
                         />
                       </Form.Group>
-                      <Form.Group className="mb-3" controlId="whymessage">
-                        <Form.Label>Why you are leaving</Form.Label>
-                        <Form.Control
-                          type="text"
-                          as="textarea"
-                          onChange={(e) => setWhymessage(e.target.value)}
-                          required
-                        />
-                      </Form.Group>
-                      <br />
+
                       <div className="mb-3">
                         <button className="hero-button" type="submit">
-                          Delete
+                          Update
                         </button>
-                        <br />
                       </div>
                     </Form>
                   </Container>
                 </div>
               </Collapse>
-              <hr />
               <br />
-            </div>
-            <br />
-            <br />
-          </p>
+
+              <br />
+              <div>
+                <button
+                  onClick={() => setNMOpen(!NMopen)}
+                  aria-controls="example-collapse-text"
+                  aria-expanded={NMopen}
+                  className="hero-button-drop"
+                >
+                  <span>View Wishlist</span>
+                </button>
+                <Collapse in={NMopen}>
+                  <div id="example-collapse-text">
+                    <Container className="large-container">
+                      <br />
+                      {loadingg ? (
+                        <div>Please Wait...</div>
+                      ) : errorr ? (
+                        <div>{errorr}</div>
+                      ) : (
+                        wishlists.map((items) => (
+                          <Row
+                            key={items.item_id}
+                            sm={12}
+                            md={12}
+                            lg={12}
+                            className="w-100"
+                          >
+                            <Col sm={4} md={4} lg={4} className="w-25">
+                              <Card>
+                                <Link to={`/productdetails/${items.item_id}`}>
+                                  <img
+                                    src={items.image}
+                                    className="card-img-top"
+                                    alt={items.item_name}
+                                    height="150px"
+                                    width="10px"
+                                  />
+                                </Link>
+                              </Card>
+                            </Col>
+
+                            <Col sm={5} md={5} lg={8} className="w-75">
+                              <Card>
+                                <Card.Body>
+                                  <p>
+                                    <Link
+                                      to={`/productdetails/${items.item_id}`}
+                                    >
+                                      <b>{items.item_name}</b>
+                                    </Link>
+                                  </p>
+                                  <br />
+                                  <Card.Subtitle>
+                                    {` Date - ${items.createdAt.slice(0, 10)}`}
+                                  </Card.Subtitle>
+                                  <br />
+                                  <Card.Subtitle>
+                                    {`Time - ${items.createdAt.slice(11, 19)}`}
+                                  </Card.Subtitle>
+                                </Card.Body>
+                              </Card>
+                              <br />
+                            </Col>
+                          </Row>
+                        ))
+                      )}
+                      <br />
+                    </Container>
+                  </div>
+                </Collapse>
+                <br />
+                <br />
+              </div>
+              <div>
+                <button
+                  onClick={() => setRMOpen(!RMopen)}
+                  aria-controls="example-collapse-text"
+                  aria-expanded={RMopen}
+                  className="hero-button-drop"
+                >
+                  <span>View order history</span>
+                </button>
+                <Collapse in={RMopen}>
+                  <div id="example-collapse-text">
+                    <Container className="large-container">
+                      <br />
+                      {loading ? (
+                        <div>Please Wait...</div>
+                      ) : error ? (
+                        <div>{error}</div>
+                      ) : (
+                        purchases.map((items) => (
+                          <Row
+                            key={items.item_id}
+                            sm={12}
+                            md={12}
+                            lg={12}
+                            className="w-100"
+                          >
+                            <Col sm={4} md={4} lg={4} className="w-25">
+                              <Card>
+                                <Link to={`/productdetails/${items.item_id}`}>
+                                  <img
+                                    src={items.image}
+                                    className="card-img-top"
+                                    alt={items.item_name}
+                                    height="150px"
+                                    width="10px"
+                                  />
+                                </Link>
+                              </Card>
+                            </Col>
+
+                            <Col sm={5} md={5} lg={8} className="w-75">
+                              <Card>
+                                <Card.Body>
+                                  <p>
+                                    <Link
+                                      to={`/productdetails/${items.item_id}`}
+                                    >
+                                      <b>{items.item_name}</b>
+                                    </Link>
+                                  </p>
+                                  <br />
+                                  <Card.Subtitle>
+                                    {` Date - ${items.createdAt.slice(0, 10)}`}
+                                  </Card.Subtitle>
+                                  <br />
+                                  <Card.Subtitle>
+                                    {`Time - ${items.createdAt.slice(11, 19)}`}
+                                  </Card.Subtitle>
+                                </Card.Body>
+                              </Card>
+                              <br />
+                            </Col>
+                          </Row>
+                        ))
+                      )}
+                      <br />
+                    </Container>
+                  </div>
+                </Collapse>
+              </div>
+              <br />
+
+              <div>
+                <button
+                  onClick={() => setSMOpen(!SMopen)}
+                  aria-controls="example-collapse-text"
+                  aria-expanded={SMopen}
+                  className="hero-button-drop"
+                >
+                  <span>Delete Account</span>
+                </button>
+                <Collapse in={SMopen}>
+                  <div id="example-collapse-text">
+                    <br />
+                    <Container className="large-container">
+                      <Form
+                        onSubmit={deleteProfile}
+                        encType="multipart/form-data"
+                      >
+                        <Form.Group className="mb-3" controlId="email">
+                          <Form.Label>Email</Form.Label>
+                          <Form.Control
+                            type="email"
+                            value={sessEmail}
+                            readOnly
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                          />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="password">
+                          <Form.Label>Password</Form.Label>
+                          <Form.Control
+                            type="password"
+                            autoComplete="on"
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                          />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="whymessage">
+                          <Form.Label>Why you are leaving</Form.Label>
+                          <Form.Control
+                            type="text"
+                            as="textarea"
+                            onChange={(e) => setWhymessage(e.target.value)}
+                            required
+                          />
+                        </Form.Group>
+                        <br />
+                        <div className="mb-3">
+                          <button className="hero-button" type="submit">
+                            Delete
+                          </button>
+                          <br />
+                        </div>
+                      </Form>
+                    </Container>
+                  </div>
+                </Collapse>
+              </div>
+            </Col>
+          </Row>
+          <br />
         </div>
       );
     }
