@@ -192,9 +192,10 @@ function ProductDetails() {
       if (data === true) {
         setinWishlist(true);
         setWishimg('../assets/media/heartfill.png');
+      } else if (data === false) {
+        setinWishlist(false);
+        setWishimg('../assets/media/heartunfill.png');
       }
-      setinWishlist(false);
-      setWishimg('../assets/media/heartunfill.png');
     }
 
     const fetchData = async () => {
@@ -257,7 +258,7 @@ function ProductDetails() {
               <br />
               <div className="wi_shbtn">
                 <button onClick={handleWish} className="wishbtn">
-                  <img src={wishimg} alt="w" height="27px" width="27px" />
+                  <img src={wishimg} alt="wish" height="27px" width="27px" />
                 </button>
                 <RWebShare
                   data={{
@@ -269,7 +270,7 @@ function ProductDetails() {
                   <button className="shbtn">
                     <img
                       src="../assets/media/share.png"
-                      alt="w"
+                      alt="share"
                       height="27px"
                       width="27px"
                     />
