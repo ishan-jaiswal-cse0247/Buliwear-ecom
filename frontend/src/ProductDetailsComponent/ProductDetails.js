@@ -66,7 +66,7 @@ function ProductDetails() {
   const [oldprice, setOldPrice] = useState('');
   const [price, setPrice] = useState('');
   const [inWishlist, setinWishlist] = useState(false);
-  const [wishimg, setWishimg] = useState('../assets/media/heartunfill.png');
+  const [wishimg, setWishimg] = useState();
 
   async function updateProduct(event) {
     event.preventDefault();
@@ -139,9 +139,9 @@ function ProductDetails() {
 
     if (data.status === 'ok') {
       toast.info('Added to wishlist');
+      setinWishlist(true);
+      setWishimg('../assets/media/heartfill.png');
     }
-    setinWishlist(true);
-    setWishimg('../assets/media/heartfill.png');
   }
 
   async function unwishlistProduct() {
@@ -159,11 +159,11 @@ function ProductDetails() {
 
     if (data.status === 'ok') {
       toast.info('Deleted from wishlist');
-    }
-    setinWishlist(false);
-    setWishimg('../assets/media/heartunfill.png');
-  }
 
+      setinWishlist(false);
+      setWishimg('../assets/media/heartunfill.png');
+    }
+  }
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
     product: [],
     loading: true,
@@ -187,10 +187,9 @@ function ProductDetails() {
           id,
         }),
       });
-
       const data = await response.json();
 
-      if (data.status === true) {
+      if (data === true) {
         setinWishlist(true);
         setWishimg('../assets/media/heartfill.png');
       }

@@ -9,7 +9,7 @@ wishlistRouter.get('/:emid', async (req, res) => {
   const wishlistby_eml = req.params.emid;
   const wishlistby = await Wishlist.find({
     wishlistby: wishlistby_eml,
-  });
+  }).sort({ createdAt: -1 });
   if (!wishlistby) {
     return { status: 'error', error: 'Nothing wishlisted yet....' };
   } else {
@@ -17,7 +17,7 @@ wishlistRouter.get('/:emid', async (req, res) => {
   }
 });
 
-wishlistRouter.get('/checkinwish/:emid', async (req, res) => {
+wishlistRouter.post('/checkinwish/:emid', async (req, res) => {
   const wishlistby_eml = req.params.emid;
   const wishlistby = await Wishlist.findOne({
     wishlistby: wishlistby_eml,
