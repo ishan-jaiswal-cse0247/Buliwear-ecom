@@ -242,37 +242,44 @@ userRouter.post('/delete', async (req, res) => {
   );
 
   if (isPasswordValid) {
-    await User.deleteOne({ email: req.body.email });
-    await Bought.deleteMany({ boughtby: req.body.email });
-    await Wishlist.deleteMany({ wishlistby: req.body.email });
-    var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: `${businessmail}`,
-        pass: `${businessmailpass}`,
-      },
+    const acc_deleted = await User.deleteOne({ email: req.body.email });
+    const boughthist_deleted = await Bought.deleteMany({
+      boughtby: req.body.email,
+    });
+    const wishhist_deleted = await Wishlist.deleteMany({
+      wishlistby: req.body.email,
     });
 
-    var mailOptions = {
-      from: `${businessmail}`,
-      to: `${req.body.email}`,
-      subject: 'Deleated your account from Buliwear',
-      text: `Your account ${req.body.email} from Buliwear has been deleated as per your request "${req.body.whymessage}", And we are taking action upon your feedback. 
+    if (acc_deleted && boughthist_deleted && wishhist_deleted) {
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: `${businessmail}`,
+          pass: `${businessmailpass}`,
+        },
+      });
+
+      var mailOptions = {
+        from: `${businessmail}`,
+        to: `${req.body.email}`,
+        subject: 'Deleated your account from Buliwear',
+        text: `Your account ${req.body.email} from Buliwear has been deleated as per your request "${req.body.whymessage}", And we are taking action upon your feedback. 
       Thank you for being with use and if you change your mind you can join our Buliwear Family at any time.
       Hope to see you again.
       
       Buliwear`,
-      // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'
-    };
+        // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'
+      };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        //console.log('Email sent: ' + info.response);
-      }
-    });
-    return res.json({ status: 'ok' });
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          //console.log('Email sent: ' + info.response);
+        }
+      });
+      return res.json({ status: 'ok' });
+    }
   } else {
     return res.json({ status: 'error', user: false });
   }
