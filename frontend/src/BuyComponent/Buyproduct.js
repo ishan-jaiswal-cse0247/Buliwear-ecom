@@ -17,7 +17,7 @@ function Buyproduct() {
   const [mobno, setMobno] = useState('');
   const [address, setAddress] = useState('');
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState();
 
   async function shipdetail(event) {
     event.preventDefault();
