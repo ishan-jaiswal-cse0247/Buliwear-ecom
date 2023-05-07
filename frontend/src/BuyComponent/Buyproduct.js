@@ -17,36 +17,40 @@ function Buyproduct() {
   const [mobno, setMobno] = useState('');
   const [address, setAddress] = useState('');
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  const [count, setCount] = useState();
+  const [count, setCount] = useState(1);
+  const [shouldSubmit, setShouldSubmit] = useState(false);
 
   async function shipdetail(event) {
     event.preventDefault();
+    setShouldSubmit(true);
+    if (shouldSubmit) {
+      const response = await fetch(`/api/users/buy/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          mobno,
+          address,
+          count,
+        }),
+      });
 
-    const response = await fetch(`/api/users/buy/${id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        mobno,
-        address,
-        count,
-      }),
-    });
+      const data = await response.json();
 
-    const data = await response.json();
-
-    if (data.status === 'ok') {
-      toast.info('Order placed we will contact you');
-      await delay(4000);
-      window.location.href = `/productdetails/${id}`;
+      if (data.status === 'ok') {
+        toast.info('Order placed we will contact you');
+        await delay(4000);
+        window.location.href = `/productdetails/${id}`;
+      }
     }
   }
 
   function increment() {
     //setCount(prevCount => prevCount+=1);
+    setShouldSubmit(false);
     setCount(function (prevCount) {
       if (prevCount > 9) {
         return (prevCount = 10);
@@ -56,6 +60,7 @@ function Buyproduct() {
   }
 
   function decrement() {
+    setShouldSubmit(false);
     setCount(function (prevCount) {
       if (prevCount > 1) {
         return (prevCount -= 1);
