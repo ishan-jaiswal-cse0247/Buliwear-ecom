@@ -345,15 +345,27 @@ function ProductDetails() {
                   <br />
                   <Collapse in={RMopen}>
                     <div id="view-desc">
-                      <a href={product.link}>
+                      <a
+                        href={product.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <b>Amazon</b>
                       </a>
                       <br />
-                      <a href={product.link0}>
+                      <a
+                        href={product.link0}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <b>Flipkart</b>
                       </a>
                       <br />
-                      <a href={product.link1}>
+                      <a
+                        href={product.link1}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <b>Meesho</b>
                       </a>
                     </div>

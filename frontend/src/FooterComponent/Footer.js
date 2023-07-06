@@ -10,7 +10,11 @@ function Footer() {
           <p>
             <i>The Baby Comfort Zone</i>
             <br />
-            <a href="https://play.google.com/store/apps/details?id=com.ecom.buliwear">
+            <a
+              href="https://play.google.com/store/apps/details?id=com.ecom.buliwear"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img src="../assets/media/playstore.png" alt=" " id="playstore" />
             </a>
           </p>
