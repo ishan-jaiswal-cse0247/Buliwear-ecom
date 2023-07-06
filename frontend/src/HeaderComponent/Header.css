@@ -5,9 +5,32 @@
 
 #brand {
   width: 100px;
+  padding-left: 7%;
 }
 
 .navbar-nav .nav-link {
   padding: 10px;
   color: white;
+}
+.navbuttons {
+  margin-left: 40%;
+}
+
+#glowbutton {
+  padding: 10px;
+  padding-left: 13px;
+  padding-right: 13px;
+  border-radius: 13px;
+  background-color: white;
+  color: black;
+}
+
+@media (max-width: 768px) {
+  .navbuttons {
+    margin-left: auto;
+  }
+  #glowbutton {
+    background-color: black;
+    color: white;
+  }
 }

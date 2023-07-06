@@ -9,8 +9,11 @@ function Footer() {
           <h3>Buli-Wear</h3>
           <p>
             <i>The Baby Comfort Zone</i>
+            <br />
+            <a href="https://play.google.com/store/apps/details?id=com.ecom.buliwear">
+              <img src="../assets/media/playstore.png" alt=" " id="playstore" />
+            </a>
           </p>
-          <br />
           <div className="footer-menu">
             <ul className="f-menu">
               <li>

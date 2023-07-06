@@ -1,3 +1,6 @@
+//Schema for static pages like image and text
+
+//*It is Automatcally Generated while building and must not be tempered*
 import mongoose from 'mongoose';
 
 const webdataSchema = new mongoose.Schema(

@@ -1,10 +1,15 @@
+//All the routes related to products are defined here
+
 import express from 'express';
 import Product from '../models/productModel.js';
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import Bought from '../models/boughtModel.js';
 import Wishlist from '../models/wishlistModel.js';
+
 const productRouter = express.Router();
+
+//Multer for file upload handling
 const storage = multer.diskStorage({
   filename: (req, file, callback) => {
     const filename =
@@ -29,6 +34,7 @@ var upload = multer({
   },
 });
 
+//take images through multer and store them to cloudinary server
 function uploadToCloudinary(file) {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(
@@ -45,16 +51,19 @@ function uploadToCloudinary(file) {
   });
 }
 
+//Get all the product and details
 productRouter.get('/', async (req, res) => {
   const products = await Product.find().sort({ createdAt: -1 });
   res.send(products);
 });
 
+//Get the latest 1 product details for Adverisement (above footer)
 productRouter.get('/adimg', async (req, res) => {
   const product = await Product.findOne().sort({ createdAt: -1 }).limit(1);
   res.send(product);
 });
 
+//Get all the product details to the product detail page as clicked on product page (finds by product id)
 productRouter.get('/id/:id', async (req, res) => {
   const product = await Product.findOne({ id: req.params.id });
   if (product) {
@@ -64,6 +73,7 @@ productRouter.get('/id/:id', async (req, res) => {
   }
 });
 
+//Get data for Chart on product details page (only visible to Admin)
 productRouter.get('/chartdata/:id', async (req, res) => {
   const bought_count = await Bought.find({ item_id: req.params.id }).count();
   const wish_count = await Wishlist.find({ item_id: req.params.id }).count();
@@ -78,6 +88,7 @@ productRouter.get('/chartdata/:id', async (req, res) => {
   }
 });
 
+//Handles POST request for Creating new product (Admin function)
 productRouter.post('/create', upload.array('image', 7), async (req, res) => {
   //const imag = req.body.image.name;
   const reqFiles = [];
@@ -108,6 +119,7 @@ productRouter.post('/create', upload.array('image', 7), async (req, res) => {
   }
 });
 
+//Handles POST reques for Updating existing product as per product id (Admin function)
 productRouter.post('/update', upload.array('image', 16), async (req, res) => {
   const reqFiles = [];
   for (var i = 0; i < req.files.length; i++) {
@@ -140,6 +152,7 @@ productRouter.post('/update', upload.array('image', 16), async (req, res) => {
   }
 });
 
+//Handles POST request for deleating product as per id (Admin Function)
 productRouter.post('/delete', async (req, res) => {
   //console.log(req.body);
   try {

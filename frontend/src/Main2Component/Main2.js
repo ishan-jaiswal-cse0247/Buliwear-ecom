@@ -2,6 +2,7 @@ import './Main2.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Carousel from 'react-bootstrap/Carousel';
+import { Link } from 'react-router-dom';
 import { useEffect, useReducer } from 'react';
 import axios from 'axios';
 const reducer = (state, action) => {
@@ -50,12 +51,14 @@ function Main2() {
           <Carousel variant="dark">
             {product.image.map((imagess) => (
               <Carousel.Item interval={1500}>
-                <img
-                  className="d-block "
-                  id="slide-img"
-                  src={imagess}
-                  alt="img"
-                />
+                <Link to={`/productdetails/${product.id}`}>
+                  <img
+                    className="d-block "
+                    id="slide-img"
+                    src={imagess}
+                    alt="img"
+                  />
+                </Link>
               </Carousel.Item>
             ))}
           </Carousel>

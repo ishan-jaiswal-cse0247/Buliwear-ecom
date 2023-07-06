@@ -1,3 +1,5 @@
+//This route sends all the purchased product details as per the current user email
+
 import express from 'express';
 import Bought from '../models/boughtModel.js';
 
@@ -9,7 +11,7 @@ boughtRouter.get('/:emid', async (req, res) => {
     boughtby: boughtby_eml,
   }).sort({ createdAt: -1 });
   if (!boughtby) {
-    return { status: 'error', error: 'Nothing purchased yet....' };
+    return { status: 'error', error: 'Nothing purchased' };
   } else {
     res.send(boughtby);
   }

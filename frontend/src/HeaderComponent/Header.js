@@ -32,13 +32,13 @@ function Header() {
                   src="../assets/media/nobg_panda.png"
                   height="35px"
                   width="30px"
-                  alt="BW"
+                  alt=" "
                   className="d-inline-block align-text-top"
                 />
               </LinkContainer>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
+            <Navbar.Collapse id="responsive-navbar-nav" className="navbuttons">
               <Nav className="me-auto">
                 <Nav.Link eventKey="2" to="/product" as={Link}>
                   Products
@@ -49,11 +49,7 @@ function Header() {
                   About
                 </Nav.Link>
               </Nav>
-              <Nav className="me-auto">
-                <Nav.Link eventKey="2" to="/privacy" as={Link}>
-                  Privacy
-                </Nav.Link>
-              </Nav>
+
               <Nav className="me-auto">
                 <Nav.Link eventKey="2" to="/contact" as={Link}>
                   Contact
@@ -66,6 +62,7 @@ function Header() {
               </Nav>
               <Nav className="me-auto">
                 <Nav.Link
+                  id="glowbutton"
                   eventKey="2"
                   to={'/'}
                   onClick={Claearvar}
@@ -104,7 +101,7 @@ function Header() {
               </LinkContainer>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
+            <Navbar.Collapse id="responsive-navbar-nav" className="navbuttons">
               <Nav className="me-auto">
                 <Nav.Link as={Link} to="/product" eventKey="2">
                   Products
@@ -116,22 +113,17 @@ function Header() {
                 </Nav.Link>
               </Nav>
               <Nav className="me-auto">
-                <Nav.Link eventKey="2" as={Link} to="/privacy">
-                  Privacy
-                </Nav.Link>
-              </Nav>
-              <Nav className="me-auto">
                 <Nav.Link eventKey="2" as={Link} to="/contact">
                   Contact
                 </Nav.Link>
               </Nav>
+
               <Nav className="me-auto">
                 <Nav.Link eventKey="2" as={Link} to="/login">
                   Sign In
                 </Nav.Link>
-              </Nav>
-              <Nav className="me-auto">
-                <Nav.Link eventKey="2" to="/register" as={Link}>
+
+                <Nav.Link eventKey="2" to="/register" as={Link} id="glowbutton">
                   Sign Up
                 </Nav.Link>
               </Nav>

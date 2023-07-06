@@ -1,3 +1,6 @@
+//Just an Seed Route for inserting demo data from data.js to MongoDB
+/* Not required anymore */
+
 import express from 'express';
 import Product from '../models/productModel.js';
 //import prodata from '../data.js';
@@ -12,4 +15,5 @@ seedRouter.get('/', async (req, res) => {
   const createUsers = await User.insertMany(prodata.users);
   res.send({ createUsers, createProducts });
 });
+
 //export default seedRouter;

@@ -1,3 +1,5 @@
+//User model for all of the details about the user
+
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(

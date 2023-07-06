@@ -1,3 +1,5 @@
+//Schema for all of the wishlisted products by every user
+
 import mongoose from 'mongoose';
 
 const wishlistSchema = new mongoose.Schema(

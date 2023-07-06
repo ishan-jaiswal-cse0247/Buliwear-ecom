@@ -56,6 +56,10 @@ footer {
   color: grey;
 }
 
+#playstore {
+  height: 70px;
+}
+
 @media (max-width: 100%) {
   .footer-menu ul {
     display: flex;

@@ -1,5 +1,6 @@
-import mongoose from 'mongoose';
+//Schema for Purchase history of all the user
 
+import mongoose from 'mongoose';
 const boughtSchema = new mongoose.Schema(
   {
     boughtby: { type: String, required: true },

@@ -1,3 +1,5 @@
+//Product details model for all of the details about the product
+
 import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema(
