@@ -56,7 +56,7 @@ function Dashbord() {
   const sesname = sessionStorage.getItem('usrname');
   const sessAdmin = sessionStorage.getItem('adminstat');
   const sessEmail = sessionStorage.getItem('usremail');
-  const brand = 'Buli-Wear';
+  const brand = 'Buliwear';
   const [name, setName] = useState('');
   const [id, setId] = useState('');
   const [image, setImage] = useState([]);

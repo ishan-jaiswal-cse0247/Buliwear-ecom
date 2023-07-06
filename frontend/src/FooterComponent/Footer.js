@@ -6,7 +6,7 @@ function Footer() {
       <footer>
         <div className="footer-content">
           <br />
-          <h3>Buli-Wear</h3>
+          <h3>Buliwear</h3>
           <p>
             <i>The Baby Comfort Zone</i>
             <br />

@@ -6,7 +6,7 @@ function Navbar() {
     return (
       <div className="hero-image">
         <div className="hero-text">
-          <h1>Welcome to Buli-Wear</h1>
+          <h1>Welcome to Buliwear</h1>
           <p>
             <i>The Baby Comfort Zone</i>
           </p>

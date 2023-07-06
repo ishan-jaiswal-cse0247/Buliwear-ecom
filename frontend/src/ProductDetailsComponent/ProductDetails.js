@@ -51,7 +51,7 @@ function ProductDetails() {
   const [open, setOpen] = useState(false);
   const [RMopen, setRMOpen] = useState(false);
   const [NMopen, setNMOpen] = useState(false);
-  const brand = 'Buli-Wear';
+  const brand = 'Buliwear';
   const [prdname, setPrdName] = useState('');
   const [setId] = useState(id);
   const [image, setImage] = useState('');
