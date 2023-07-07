@@ -1,5 +1,5 @@
 .hero-image {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(54, 54, 54, 0.3)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(52, 52, 52, 0.2)),
     url('../../public/assets/media/hero_img.png');
 
   height: 430px;
@@ -17,4 +17,12 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 220px;
+}
+
+@media (max-width: 768px) {
+  .hero-text {
+    margin-top: 22px;
+    width: 160px;
+  }
 }

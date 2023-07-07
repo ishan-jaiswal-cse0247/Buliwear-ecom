@@ -1,17 +1,31 @@
 import './Navbar.css';
 import { Link } from 'react-router-dom';
+import Typewriter from 'typewriter-effect';
+
 function Navbar() {
   const sesname = sessionStorage.getItem('usrname');
+
   if (sesname) {
     return (
       <div className="hero-image">
         <div className="hero-text">
-          <h1>Welcome to Buliwear</h1>
-          <p>
-            <i>The Baby Comfort Zone</i>
-          </p>
           <br />
-          <h3>Greetings {sesname}</h3>
+          <h4>
+            <Typewriter
+              onInit={(typewriter) => {
+                typewriter
+                  .typeString(`<i>Greetings ${sesname}</i>`)
+                  .pauseFor(2000)
+                  .deleteAll()
+                  .typeString('<i>Explore our Primium Quality Products now</i>')
+                  .start();
+              }}
+            />
+          </h4>
+          <br />
+          <Link to="/product">
+            <button className="hero-button">View Products</button>
+          </Link>
         </div>
       </div>
     );
@@ -19,10 +33,21 @@ function Navbar() {
     return (
       <div className="hero-image">
         <div className="hero-text">
-          <h2>Welcome to BuliWear</h2>
-          <p>
-            <i>The Baby Comfort Zone</i>
-          </p>
+          <br />
+          <h4>
+            <Typewriter
+              onInit={(typewriter) => {
+                typewriter
+                  .typeString(`<i>Welcome to Buliwear</i>`)
+                  .pauseFor(2000)
+                  .deleteAll()
+                  .typeString(
+                    '<i>Sign In to get access to all of our Products</i>'
+                  )
+                  .start();
+              }}
+            />
+          </h4>
           <br />
           <Link to="/login">
             <button className="hero-button">Sign In</button>

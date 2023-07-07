@@ -13,6 +13,9 @@ import Container from 'react-bootstrap/Container';
 import { toast } from 'react-toastify';
 import { RWebShare } from 'react-web-share';
 import { PieChart, Pie, Legend, Tooltip, Cell } from 'recharts';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
 const COLORS = ['#000000', '#808080'];
 
 const sessAdmin = sessionStorage.getItem('adminstat');
@@ -239,12 +242,35 @@ function ProductDetails() {
 
   if (name && sessAdmin === 'false') {
     return loading ? (
-      <div>Loading Please Wait.......</div>
+      <div>
+        <br />
+        <h1>Details </h1>
+        <hr />
+        <br />
+        <Row key={0} sm={1} md={1} lg={2} className="mb-3">
+          <Col>
+            <Card>
+              <Skeleton height={320} width={660} />
+            </Card>
+          </Col>
+          <Col>
+            <Card>
+              <Card.Body>
+                <Skeleton height={400} width={600} />
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Container>
+            <Skeleton height={40} />
+          </Container>
+        </Row>
+      </div>
     ) : error ? (
       <div>
         <br />
         <h4>product id = {id} not found</h4>
-        {error}
       </div>
     ) : (
       <div>
@@ -400,12 +426,35 @@ function ProductDetails() {
     );
   } else if (name && sessAdmin === 'true') {
     return loading ? (
-      <div>Loading Please Wait.......</div>
+      <div>
+        <br />
+        <h1>Details </h1>
+        <hr />
+        <br />
+        <Row key={0} sm={1} md={1} lg={2} className="mb-3">
+          <Col>
+            <Card>
+              <Skeleton height={320} width={660} />
+            </Card>
+          </Col>
+          <Col>
+            <Card>
+              <Card.Body>
+                <Skeleton height={400} width={600} />
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Container>
+            <Skeleton height={40} />
+          </Container>
+        </Row>
+      </div>
     ) : error ? (
       <div>
         <br />
         <h4>product id = {id} not found</h4>
-        {error}
       </div>
     ) : (
       <div>
@@ -706,12 +755,35 @@ function ProductDetails() {
     );
   } else {
     return loading ? (
-      <div>Loading Please Wait.......</div>
+      <div>
+        <br />
+        <h1>Details </h1>
+        <hr />
+        <br />
+        <Row key={0} sm={1} md={1} lg={2} className="mb-3">
+          <Col>
+            <Card>
+              <Skeleton height={320} width={660} />
+            </Card>
+          </Col>
+          <Col>
+            <Card>
+              <Card.Body>
+                <Skeleton height={400} width={600} />
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Container>
+            <Skeleton height={40} />
+          </Container>
+        </Row>
+      </div>
     ) : error ? (
       <div>
         <br />
         <h4>product id = {id} not found</h4>
-        {error}
       </div>
     ) : (
       <div>

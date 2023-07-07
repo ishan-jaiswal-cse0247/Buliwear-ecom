@@ -5,6 +5,9 @@ import Carousel from 'react-bootstrap/Carousel';
 import { Link } from 'react-router-dom';
 import { useEffect, useReducer } from 'react';
 import axios from 'axios';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_REQUEST':
@@ -43,9 +46,13 @@ function Main2() {
     <div id="main2">
       <hr />
       {loading ? (
-        <div>Please Wait...</div>
+        <div className="Slider">
+          <Skeleton height={400} />
+        </div>
       ) : error ? (
-        <div>{error}</div>
+        <div className="Slider">
+          <Skeleton height={400} />
+        </div>
       ) : (
         <div className="Slider">
           <Carousel variant="dark">

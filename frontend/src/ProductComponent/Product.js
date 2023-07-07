@@ -5,6 +5,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -46,9 +48,75 @@ function Product() {
       <hr />
       <br />
       {loading ? (
-        <div>Please Wait...</div>
+        <Row>
+          <Col key={0} sm={5} md={4} lg={3} className="mb-3">
+            <Card>
+              <Skeleton height={220} />
+              <Card.Body>
+                <Skeleton height={100} />
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col key={1} sm={5} md={4} lg={3} className="mb-3">
+            <Card>
+              <Skeleton height={220} />
+              <Card.Body>
+                <Skeleton height={100} />
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col key={2} sm={5} md={4} lg={3} className="mb-3">
+            <Card>
+              <Skeleton height={220} />
+              <Card.Body>
+                <Skeleton height={100} />
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col key={3} sm={5} md={4} lg={3} className="mb-3">
+            <Card>
+              <Skeleton height={220} />
+              <Card.Body>
+                <Skeleton height={100} />
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       ) : error ? (
-        <div>{error}</div>
+        <Row>
+          <Col key={0} sm={5} md={4} lg={3} className="mb-3">
+            <Card>
+              <Skeleton height={220} />
+              <Card.Body>
+                <Skeleton height={100} />
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col key={1} sm={5} md={4} lg={3} className="mb-3">
+            <Card>
+              <Skeleton height={220} />
+              <Card.Body>
+                <Skeleton height={100} />
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col key={2} sm={5} md={4} lg={3} className="mb-3">
+            <Card>
+              <Skeleton height={220} />
+              <Card.Body>
+                <Skeleton height={100} />
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col key={3} sm={5} md={4} lg={3} className="mb-3">
+            <Card>
+              <Skeleton height={220} />
+              <Card.Body>
+                <Skeleton height={100} />
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       ) : (
         <Row>
           {products.map((product) => (
@@ -72,7 +140,6 @@ function Product() {
                         {product.brand}
                       </i>
                     </p>
-
                     <Card.Title>
                       <Link to={`/productdetails/${product.id}`}>
                         <b>{product.name}</b>
@@ -86,9 +153,6 @@ function Product() {
                       &nbsp;&nbsp;
                       <b>&#8377;{product.price}</b>&nbsp;M.R.P only
                     </p>
-                    <button className="hero-button">
-                      <Link to={`/productdetails/${product.id}`}>Details</Link>
-                    </button>
                   </div>
                 </Card.Body>
               </Card>

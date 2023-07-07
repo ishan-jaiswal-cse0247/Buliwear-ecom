@@ -27,7 +27,7 @@ function Notfound() {
             </h6>
           </p>
           <br />
-          <Link to={'/register'}>
+          <Link to={'/'}>
             <button className="hero-button">Home</button>
           </Link>
         </Col>

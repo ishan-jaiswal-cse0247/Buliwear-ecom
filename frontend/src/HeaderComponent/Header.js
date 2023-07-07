@@ -55,12 +55,16 @@ function Header() {
                   Contact
                 </Nav.Link>
               </Nav>
-              <Nav className="me-auto">
-                <Nav.Link eventKey="2" to="/dashbord" as={Link}>
+
+              <Nav className="me-auto" id="endnavbutton">
+                <Nav.Link
+                  eventKey="2"
+                  to="/dashbord"
+                  as={Link}
+                  id="nonglowbutton"
+                >
                   {name}
                 </Nav.Link>
-              </Nav>
-              <Nav className="me-auto">
                 <Nav.Link
                   id="glowbutton"
                   eventKey="2"
@@ -118,8 +122,8 @@ function Header() {
                 </Nav.Link>
               </Nav>
 
-              <Nav className="me-auto">
-                <Nav.Link eventKey="2" as={Link} to="/login">
+              <Nav className="me-auto" id="endnavbutton">
+                <Nav.Link eventKey="2" as={Link} to="/login" id="nonglowbutton">
                   Sign In
                 </Nav.Link>
 

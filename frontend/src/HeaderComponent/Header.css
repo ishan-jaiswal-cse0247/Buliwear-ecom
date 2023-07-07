@@ -9,11 +9,20 @@
 }
 
 .navbar-nav .nav-link {
-  padding: 10px;
+  padding: 7px;
   color: white;
 }
 .navbuttons {
-  margin-left: 40%;
+  margin-left: 4%;
+}
+
+#endnavbutton {
+  margin-left: 31%;
+}
+
+#nonglowbutton {
+  margin-right: 13px;
+  padding-top: 10px;
 }
 
 #glowbutton {
@@ -29,8 +38,16 @@
   .navbuttons {
     margin-left: auto;
   }
+  #nonglowbutton {
+    margin-right: 0;
+    padding-top: auto;
+  }
+
   #glowbutton {
     background-color: black;
     color: white;
+  }
+  #endnavbutton {
+    margin-left: auto;
   }
 }
