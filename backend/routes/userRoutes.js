@@ -355,6 +355,7 @@ userRouter.post('/sendnews', async (req, res) => {
 
 userRouter.post('/buy/:id', async (req, res) => {
   const pid = req.params.id;
+  let product_price = 0;
   const user = await User.findOne({
     email: req.body.email,
   });
@@ -369,6 +370,7 @@ userRouter.post('/buy/:id', async (req, res) => {
       item_id: pid,
       item_count: req.body.count,
     });
+    product_price = product.price;
   }
 
   try {
@@ -389,13 +391,16 @@ userRouter.post('/buy/:id', async (req, res) => {
     from: `${businessmail}`,
     to: `${req.body.email}`,
     subject: `Order from ${req.body.name}`,
-    text: `Hi ${req.body.name}, thank you for ordering our product and joining our Buliwear Family.
+    text: `Hi ${
+      req.body.name
+    }, thank you for ordering our product and joining our Buliwear Family.
     Shipping Details :- 
       Name - ${req.body.name}
       Email - ${req.body.email}
       MobNum - ${req.body.mobno}
       Address - ${req.body.address}
       No. of item(s) - ${req.body.count}
+      Total Payble Price - ${req.body.count * product_price}
       Product - https://fluffy-teal-giraffe.cyclic.app/productdetails/${pid}
       Thank you for Shopping with us, We will reach you as soon as possible`,
     // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'
