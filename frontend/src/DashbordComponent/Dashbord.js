@@ -821,7 +821,7 @@ function Dashbord() {
                 </button>
                 <Collapse in={NMopen}>
                   <div id="example-collapse-text">
-                    <Container className="large-container" id="mid-container">
+                    <Container className="large-container">
                       <br />
                       {loadingg ? (
                         <div>Please Wait...</div>
@@ -893,7 +893,7 @@ function Dashbord() {
                 </button>
                 <Collapse in={RMopen}>
                   <div id="example-collapse-text">
-                    <Container className="large-container" id="mid-container">
+                    <Container className="large-container">
                       <br />
                       {loading ? (
                         <div>Please Wait...</div>

@@ -270,7 +270,7 @@ function ProductDetails() {
     ) : error ? (
       <div>
         <br />
-        <h4>product id = {id} not found</h4>
+        <h4>Unabl to get product id = {id}</h4>
       </div>
     ) : (
       <div>
@@ -454,7 +454,7 @@ function ProductDetails() {
     ) : error ? (
       <div>
         <br />
-        <h4>product id = {id} not found</h4>
+        <h4>Unable to get product id = {id}</h4>
       </div>
     ) : (
       <div>
