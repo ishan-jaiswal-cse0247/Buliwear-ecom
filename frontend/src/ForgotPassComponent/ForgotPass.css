@@ -6,8 +6,11 @@
 #main1 p {
   margin-left: 10px;
   margin-right: 10px;
-  text-align: justify;
+  text-align: center;
 }
 .small-container {
   width: 30%;
+}
+#mid-container {
+  width: 52%;
 }

@@ -24,7 +24,7 @@ function Navbar() {
           </h4>
           <br />
           <Link to="/product">
-            <button className="hero-button">View Products</button>
+            <button className="hero-button">Shop Now</button>
           </Link>
         </div>
       </div>

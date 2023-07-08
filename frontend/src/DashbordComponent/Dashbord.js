@@ -376,7 +376,7 @@ function Dashbord() {
               <Collapse in={open}>
                 <div id="example-collapse-text">
                   <br />
-                  <Container className="large-container">
+                  <Container className="large-container" id="mid-container">
                     <Form
                       onSubmit={createProduct}
                       encType="multipart/form-data"
@@ -516,7 +516,7 @@ function Dashbord() {
               <Collapse in={NMopen}>
                 <div id="example-collapse-text">
                   <br />
-                  <Container className="large-container">
+                  <Container className="large-container" id="mid-container">
                     <Form
                       onSubmit={updateProduct}
                       encType="multipart/form-data"
@@ -644,7 +644,7 @@ function Dashbord() {
               <Collapse in={RMopen}>
                 <div id="example-collapse-text">
                   <br />
-                  <Container className="large-container">
+                  <Container className="large-container" id="mid-container">
                     <Form
                       onSubmit={removeProduct}
                       encType="multipart/form-data"
@@ -681,7 +681,7 @@ function Dashbord() {
               <Collapse in={SMopen}>
                 <div id="example-collapse-text">
                   <br />
-                  <Container className="large-container">
+                  <Container className="large-container" id="mid-container">
                     <Form onSubmit={sendNews} encType="multipart/form-data">
                       <Form.Group className="mb-3" controlId="description">
                         <Form.Label>Write Message</Form.Label>
@@ -767,7 +767,7 @@ function Dashbord() {
               <Collapse in={open}>
                 <div id="example-collapse-text">
                   <br />
-                  <Container className="large-container">
+                  <Container className="large-container" id="mid-container">
                     <Form onSubmit={updateProfile}>
                       <Form.Group className="mb-3" controlId="usrname">
                         <Form.Label>Name</Form.Label>
@@ -821,7 +821,7 @@ function Dashbord() {
                 </button>
                 <Collapse in={NMopen}>
                   <div id="example-collapse-text">
-                    <Container className="large-container">
+                    <Container className="large-container" id="mid-container">
                       <br />
                       {loadingg ? (
                         <div>Please Wait...</div>
@@ -893,7 +893,7 @@ function Dashbord() {
                 </button>
                 <Collapse in={RMopen}>
                   <div id="example-collapse-text">
-                    <Container className="large-container">
+                    <Container className="large-container" id="mid-container">
                       <br />
                       {loading ? (
                         <div>Please Wait...</div>
@@ -966,7 +966,7 @@ function Dashbord() {
                 <Collapse in={SMopen}>
                   <div id="example-collapse-text">
                     <br />
-                    <Container className="large-container">
+                    <Container className="large-container" id="mid-container">
                       <Form
                         onSubmit={deleteProfile}
                         encType="multipart/form-data"

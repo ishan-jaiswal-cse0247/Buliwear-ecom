@@ -79,7 +79,7 @@ function ForgotPass() {
             />
           </Col>
           <Col>
-            <Container className="large-container">
+            <Container className="large-container" id="mid-container">
               <Form onSubmit={resetPass}>
                 <Form.Group className="mb-3" controlId="email">
                   <Form.Label>Email</Form.Label>
@@ -131,7 +131,7 @@ function ForgotPass() {
             />
           </Col>
           <Col>
-            <Container className="large-container">
+            <Container className="large-container" id="mid-container">
               <Form onSubmit={resetEmail}>
                 <Form.Group className="mb-3" controlId="email">
                   <Form.Label>Email</Form.Label>

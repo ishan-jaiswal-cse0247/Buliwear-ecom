@@ -24,13 +24,14 @@ button {
   min-height: auto;
   overflow: hidden;
   background-color: white;
+  text-align: center;
 }
 .App {
   text-align: center;
 }
 .hero-button {
   display: inline-block;
-  border-radius: 16px;
+  border-radius: 13px;
   background-color: rgb(36, 35, 35);
   border: none;
   color: white;
@@ -39,7 +40,7 @@ button {
   padding: 10px;
   padding-left: 24px;
   padding-right: 24px;
-  width: auto;
+  width: 130px;
   transition: all 0.5s;
   cursor: url('../public/assets/media/pointer.png'), auto;
 }
@@ -90,7 +91,7 @@ button {
   padding: 10px;
   padding-left: 24px;
   padding-right: 24px;
-  width: auto;
+  width: 220px;
   transition: all 0.5s;
   cursor: url('../public/assets/media/pointer.png'), auto;
 }
@@ -135,10 +136,10 @@ body {
   0% {
     opacity: 0;
   }
-  25% {
+  50% {
     opacity: 1;
   }
-  75% {
+  60% {
     opacity: 0;
   }
   100% {

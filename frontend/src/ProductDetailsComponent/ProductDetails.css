@@ -72,3 +72,6 @@ img {
 button {
   cursor: default;
 }
+#mid-container {
+  width: 52%;
+}

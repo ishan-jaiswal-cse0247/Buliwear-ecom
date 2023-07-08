@@ -135,10 +135,7 @@ function Product() {
                 <Card.Body>
                   <div className="prodetail">
                     <p>
-                      <i>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        {product.brand}
-                      </i>
+                      <i>{product.brand}</i>
                     </p>
                     <Card.Title>
                       <Link to={`/productdetails/${product.id}`}>
@@ -163,7 +160,7 @@ function Product() {
 
       <div>
         <br />
-        <h3>&nbsp;&nbsp;&nbsp;&nbsp;More products comming soon...</h3>
+        <h3>More products comming soon...</h3>
         <br />
         <br />
       </div>

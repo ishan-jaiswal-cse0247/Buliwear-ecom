@@ -7,7 +7,7 @@
 #main1 p {
   margin-left: 10px;
   margin-right: 10px;
-  text-align: justify;
+  text-align: center;
 }
 .countbtn {
   background-color: white;
@@ -18,4 +18,7 @@
 }
 .countbtn :hover {
   cursor: pointer;
+}
+#mid-container {
+  width: 52%;
 }

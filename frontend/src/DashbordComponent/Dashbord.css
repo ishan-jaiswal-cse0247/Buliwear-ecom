@@ -17,3 +17,6 @@ a {
 a :hover {
   color: black;
 }
+#mid-container {
+  width: 52%;
+}

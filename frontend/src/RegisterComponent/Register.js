@@ -62,7 +62,7 @@ function Register() {
           />
         </Col>
         <Col>
-          <Container className="large-container">
+          <Container className="large-container" id="mid-container">
             <Form onSubmit={registerUser}>
               <Form.Group className="mb-3" controlId="name">
                 <Form.Label>Name</Form.Label>

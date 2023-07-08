@@ -87,7 +87,7 @@ function Login() {
           />
         </Col>
         <Col>
-          <Container className="large-container">
+          <Container className="large-container" id="mid-container">
             <Form onSubmit={loginUser}>
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Email</Form.Label>

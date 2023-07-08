@@ -535,7 +535,7 @@ function ProductDetails() {
                   <Collapse in={RMopen}>
                     <div id="example-collapse-text">
                       <br />
-                      <Container className="large-container">
+                      <Container className="large-container" id="mid-container">
                         <Form
                           onSubmit={updateProduct}
                           encType="multipart/form-data"
@@ -675,7 +675,7 @@ function ProductDetails() {
                 <Collapse in={NMopen}>
                   <div id="example-collapse-text">
                     <br />
-                    <Container className="large-container">
+                    <Container className="large-container" id="mid-container">
                       <Form
                         onSubmit={removeProduct}
                         encType="multipart/form-data"
