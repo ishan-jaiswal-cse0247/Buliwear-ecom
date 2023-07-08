@@ -250,7 +250,7 @@ function ProductDetails() {
         <Row key={0} sm={1} md={1} lg={2} className="mb-3">
           <Col>
             <Card>
-              <Skeleton height={320} width={660} />
+              <Skeleton height={350} width={660} />
             </Card>
           </Col>
           <Col>
@@ -434,7 +434,7 @@ function ProductDetails() {
         <Row key={0} sm={1} md={1} lg={2} className="mb-3">
           <Col>
             <Card>
-              <Skeleton height={320} width={660} />
+              <Skeleton height={350} width={660} />
             </Card>
           </Col>
           <Col>
@@ -713,14 +713,14 @@ function ProductDetails() {
               aria-expanded={open}
               className="hero-button-drop"
             >
-              <span>View details of Product</span>
+              <span>View details</span>
             </button>
             <Collapse in={open}>
               <div id="view-desc">
                 {loadingg ? (
                   <div>Please Wait...</div>
                 ) : errorr ? (
-                  <div>{errorr}</div>
+                  <div>Unable to load Chart</div>
                 ) : (
                   <div className="chartbox">
                     <PieChart width={400} height={400}>

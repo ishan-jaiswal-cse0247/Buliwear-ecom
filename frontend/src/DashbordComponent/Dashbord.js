@@ -11,6 +11,9 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import { PieChart, Pie, Legend, Tooltip, Cell } from 'recharts';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+
 const COLORS = ['#000000', '#808080', '#CACACA'];
 
 const reducer = (state, action) => {
@@ -330,7 +333,9 @@ function Dashbord() {
           <Row key={1} sm={2} md={2} lg={2} className="mb-3">
             <Col>
               {chartloading ? (
-                <div>Please Wait...</div>
+                <div className="chartbox">
+                  <Skeleton height={310} width={400} />
+                </div>
               ) : charterror ? (
                 <div>{charterror}</div>
               ) : (
@@ -721,7 +726,9 @@ function Dashbord() {
           <Row key={1} sm={2} md={2} lg={2} className="mb-3">
             <Col>
               {chartloading ? (
-                <div>Please Wait...</div>
+                <div className="chartbox">
+                  <Skeleton height={310} width={400} />
+                </div>
               ) : charterror ? (
                 <div>{charterror}</div>
               ) : (
